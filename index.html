@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home E-Cal | Electricity Tracker</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Noto+Sans+Sinhala:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Flat & Professional Dark Theme */
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-color: #f59e0b; /* Yellow/Orange for Electricity */
+            --accent-hover: #d97706;
+            --success-color: #10b981;
+            --input-bg: #0f172a;
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Poppins', 'Noto Sans Sinhala', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            font-size: 50px;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.3));
+        }
+
+        h2 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 26px;
+            letter-spacing: 0.5px;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Views */
+        #loginView, #dashboardView {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        #loginView.active, #dashboardView.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+            transition: box-shadow 0.3s ease;
+        }
+
+        input:focus {
+            box-shadow: 0 0 0 2px var(--accent-color);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Dashboard Specifics */
+        .greeting-box {
+            text-align: center;
+            padding: 15px;
+            background-color: rgba(245, 158, 11, 0.1);
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .greeting-box h3 {
+            margin: 0;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .result-card {
+            background-color: var(--input-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .result-card .value {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--success-color);
+            margin: 10px 0;
+        }
+
+        .result-card .cost {
+            font-size: 20px;
+            color: #f8fafc;
+        }
+
+        .history-list {
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--text-muted);
+            text-align: left;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #334155;
+        }
+
+        .logout-btn {
+            background-color: transparent;
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-top: 20px;
+            padding: 10px;
+        }
+        .logout-btn:hover {
+            background-color: #334155;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <i class="fa-solid fa-bolt logo-icon"></i>
+            <h2>Home E-Cal</h2>
+            <p class="subtitle">ගෘහස්ථ විදුලි පරිභෝජන ගණකය</p>
+        </div>
+
+        <div id="loginView" class="active">
+            <p style="text-align: center; font-size: 14px; margin-bottom: 25px; color: #cbd5e1;">ඔබගේ පෞද්ගලිකත්වය සුරැකීම සඳහා නම සහ රහස් අංකයක් ඇතුලත් කරන්න.</p>
+            
+            <div class="form-group" id="nameGroup">
+                <label>ඔබගේ නම (English)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="userName" placeholder="Ex: Tharuk">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>පින් අංකය (PIN)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="userPin" placeholder="අංක 4ක පින් එකක්">
+                </div>
+            </div>
+
+            <button onclick="handleLogin()">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i> ඇතුලත් වෙන්න
+            </button>
+            <div id="loginError" style="color: #ef4444; font-size: 13px; text-align: center; margin-top: 10px; display: none;">පින් අංකය වැරදියි!</div>
+        </div>
+
+        <div id="dashboardView">
+            <div class="greeting-box">
+                <h3 id="greetingText">ආයුබෝවන් Tharuk!</h3>
+                <p style="margin: 5px 0 0 0; font-size: 12px; color: var(--text-muted);" id="dateText"></p>
+            </div>
+
+            <div class="form-group">
+                <label>අද දින විදුලි මීටරයේ සටහන්ව ඇති අගය</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-gauge-high"></i>
+                    <input type="number" id="meterReading" placeholder="උදා: 12450">
+                </div>
+            </div>
+
+            <button onclick="saveReading()">
+                <i class="fa-solid fa-floppy-disk"></i> සටහන් කරන්න
+            </button>
+
+            <div class="result-card" id="resultCard" style="display: none;">
+                <div style="color: var(--text-muted); font-size: 14px;">ගතවූ පැය 24 සඳහා විදුලි භාවිතය:</div>
+                <div class="value"><span id="unitsUsed">0</span> Units</div>
+                <div class="cost">දළ වියදම: රු. <span id="estimatedCost">0.00</span></div>
+            </div>
+
+            <div class="history-list" id="historyList">
+                </div>
+
+            <button class="logout-btn" onclick="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i> ගිණුමෙන් ඉවත් වන්න
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is already registered
+        window.onload = function() {
+            const savedPin = localStorage.getItem('ecal_pin');
+            if (savedPin) {
+                // Already registered, hide name input
+                document.getElementById('nameGroup').style.display = 'none';
+            }
+            
+            // Set current date
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('dateText').innerText = new Date().toLocaleDateString('si-LK', options);
+        }
+
+        function handleLogin() {
+            const pinInput = document.getElementById('userPin').value;
+            const nameInput = document.getElementById('userName').value;
+            const savedPin = localStorage.getItem('ecal_pin');
+            const errorDiv = document.getElementById('loginError');
+
+            if (!pinInput) {
+                errorDiv.innerText = "කරුණාකර පින් අංකය ඇතුලත් කරන්න.";
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            if (!savedPin) {
+                // New User Registration
+                if (!nameInput) {
+                    errorDiv.innerText = "කරුණාකර ඔබගේ නම ඇතුලත් කරන්න.";
+                    errorDiv.style.display = 'block';
+                    return;
+                }
+                localStorage.setItem('ecal_pin', pinInput);
+                localStorage.setItem('ecal_name', nameInput);
+                showDashboard(nameInput);
+            } else {
+                // Existing User Login
+                if (pinInput === savedPin) {
+                    const savedName = localStorage.getItem('ecal_name');
+                    showDashboard(savedName);
+                } else {
+                    errorDiv.innerText = "පින් අංකය වැරදියි!";
+                    errorDiv.style.display = 'block';
+                }
+            }
+        }
+
+        function showDashboard(name) {
+            document.getElementById('loginView').classList.remove('active');
+            document.getElementById('dashboardView').classList.add('active');
+            document.getElementById('greetingText').innerText = `ආයුබෝවන් ${name}!`;
+            updateHistoryUI();
+        }
+
+        function saveReading() {
+            const readingInput = parseFloat(document.getElementById('meterReading').value);
+            if (!readingInput || isNaN(readingInput)) {
+                alert("කරුණාකර නිවැරදි අගයක් ඇතුලත් කරන්න.");
+                return;
+            }
+
+            const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+            let readings = JSON.parse(localStorage.getItem('ecal_readings')) || [];
+
+            // Check if already entered today
+            const existingIndex = readings.findIndex(r => r.date === today);
+            if (existingIndex !== -1) {
+                readings[existingIndex].value = readingInput; // Update today's reading
+            } else {
+                readings.push({ date: today, value: readingInput });
+            }
+
+            // Sort by date just in case
+            readings.sort((a, b) => new Date(a.date) - new Date(b.date));
+            localStorage.setItem('ecal_readings', JSON.stringify(readings));
+            
+            document.getElementById('meterReading').value = '';
+            updateHistoryUI();
+        }
+
+        function updateHistoryUI() {
+            const readings = JSON.parse(localStorage.getItem('ecal_readings')) || [];
+            const resultCard = document.getElementById('resultCard');
+            const historyList = document.getElementById('historyList');
+            
+            historyList.innerHTML = '<strong style="color:#f8fafc; display:block; margin-bottom:10px;">මෑතකාලීන දත්ත:</strong>';
+
+            if (readings.length >= 2) {
+                // Get the last two readings
+                const todayReading = readings[readings.length - 1];
+                const yesterdayReading = readings[readings.length - 2];
+                
+                const unitsUsed = todayReading.value - yesterdayReading.value;
+                
+                if (unitsUsed >= 0) {
+                    document.getElementById('unitsUsed').innerText = unitsUsed.toFixed(1);
+                    document.getElementById('estimatedCost').innerText = calculateDailyCost(unitsUsed).toFixed(2);
+                    resultCard.style.display = 'block';
+                } else {
+                    resultCard.style.display = 'none';
+                }
+            } else {
+                resultCard.style.display = 'none';
+                if (readings.length === 1) {
+                    historyList.innerHTML += `<div style="color:var(--accent-color); margin-top:10px;"><i class="fa-solid fa-circle-info"></i> පළමු දත්තය සටහන් විය. ගණනය කිරීම් බැලීම සඳහා හෙට දින අලුත් අගය ඇතුලත් කරන්න.</div>`;
+                }
+            }
+
+            // Show last 5 days history
+            const recentReadings = readings.slice(-5).reverse();
+            recentReadings.forEach(r => {
+                historyList.innerHTML += `
+                    <div class="history-item">
+                        <span><i class="fa-regular fa-calendar"></i> ${r.date}</span>
+                        <span>${r.value} Units</span>
+                    </div>
+                `;
+            });
+        }
+
+        // සරල කළ විදුලි බිල ගණනය කිරීම (දළ වියදම)
+        function calculateDailyCost(dailyUnits) {
+            // මාසික බිල ගණනය කර එය 30න් බෙදීම වඩාත් නිවැරදියි
+            const monthlyUnits = dailyUnits * 30;
+            let monthlyBill = 0;
+
+            if (monthlyUnits <= 30) {
+                monthlyBill = (monthlyUnits * 8.00) + 150.00;
+            } else if (monthlyUnits <= 60) {
+                monthlyBill = (30 * 8.00) + ((monthlyUnits - 30) * 20.00) + 300.00;
+            } else if (monthlyUnits <= 90) {
+                monthlyBill = (60 * 16.00) + ((monthlyUnits - 60) * 30.00) + 400.00;
+            } else if (monthlyUnits <= 120) {
+                monthlyBill = (60 * 16.00) + (30 * 30.00) + ((monthlyUnits - 90) * 50.00) + 1000.00;
+            } else {
+                monthlyBill = (60 * 16.00) + (30 * 30.00) + (30 * 50.00) + ((monthlyUnits - 120) * 75.00) + 1500.00;
+            }
+
+            return monthlyBill / 30; // දෛනික වියදම
+        }
+
+        function logout() {
+            document.getElementById('dashboardView').classList.remove('active');
+            document.getElementById('loginView').classList.add('active');
+            document.getElementById('userPin').value = '';
+            
+            // Show only PIN input if already registered
+            if(localStorage.getItem('ecal_pin')) {
+                document.getElementById('nameGroup').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
