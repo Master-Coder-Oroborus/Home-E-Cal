@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home E-Cal | Electricity Tracker</title>
+    <title>Home E-Cal | Electricity Tracker By Tharuk</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Noto+Sans+Sinhala:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* Flat & Professional Dark Theme */
+        /* Flat & Engaging Dark Theme */
         :root {
             --bg-color: #0f172a;
             --card-bg: #1e293b;
@@ -18,6 +18,7 @@
             --accent-color: #f59e0b; /* Yellow/Orange for Electricity */
             --accent-hover: #d97706;
             --success-color: #10b981;
+            --warning-color: #f59e0b;
             --input-bg: #0f172a;
             --border-radius: 12px;
         }
@@ -40,7 +41,7 @@
             padding: 40px;
             border-radius: var(--border-radius);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            max-width: 500px;
+            max-width: 700px;
             width: 100%;
         }
 
@@ -63,6 +64,19 @@
             letter-spacing: 0.5px;
         }
 
+        .creator-badge {
+            display: inline-block;
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--accent-color);
+            padding: 4px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 8px;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
         p.subtitle {
             color: var(--text-muted);
             font-size: 14px;
@@ -70,12 +84,12 @@
         }
 
         /* Views */
-        #loginView, #dashboardView {
+        #profileView, #readingView, #resultView {
             display: none;
             animation: fadeIn 0.5s ease;
         }
 
-        #loginView.active, #dashboardView.active {
+        #profileView.active, #readingView.active, #resultView.active {
             display: block;
         }
 
@@ -152,8 +166,8 @@
             transform: scale(0.98);
         }
 
-        /* Dashboard Specifics */
-        .greeting-box {
+        /* Reading/Result Specifics */
+        .dashboard-box {
             text-align: center;
             padding: 15px;
             background-color: rgba(245, 158, 11, 0.1);
@@ -162,35 +176,62 @@
             border-left: 4px solid var(--accent-color);
         }
 
-        .greeting-box h3 {
+        .dashboard-box h3 {
             margin: 0;
             color: var(--accent-color);
             font-weight: 600;
         }
 
-        .result-card {
+        .clock-display {
+            font-size: 40px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin: 15px 0;
+            font-family: monospace;
+        }
+
+        .reading-screen {
             background-color: var(--input-bg);
             border-radius: 8px;
-            padding: 20px;
+            padding: 30px;
             margin-top: 25px;
             text-align: center;
+            border: 2px solid var(--success-color);
         }
 
-        .result-card .value {
-            font-size: 32px;
+        .reading-screen .value {
+            font-size: 56px;
             font-weight: 600;
             color: var(--success-color);
-            margin: 10px 0;
+            margin: 15px 0;
+            font-family: monospace;
         }
 
-        .result-card .cost {
-            font-size: 20px;
+        .result-screen {
+            background-color: var(--input-bg);
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 25px;
+            text-align: center;
+            border: none;
+        }
+
+        .result-screen .units-value {
+            font-size: 48px;
+            font-weight: 600;
+            color: var(--success-color);
+            margin: 15px 0;
+        }
+
+        .result-screen .estimated-cost {
+            font-size: 24px;
             color: #f8fafc;
+            margin-top: 10px;
         }
-
+        
         .history-list {
-            margin-top: 20px;
-            font-size: 13px;
+            margin-top: 25px;
+            font-size: 14px;
             color: var(--text-muted);
             text-align: left;
         }
@@ -198,19 +239,33 @@
         .history-item {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            padding: 10px 0;
             border-bottom: 1px solid #334155;
         }
 
-        .logout-btn {
-            background-color: transparent;
-            color: var(--text-muted);
-            font-size: 13px;
-            margin-top: 20px;
-            padding: 10px;
-        }
-        .logout-btn:hover {
+        .badge {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 12px;
             background-color: #334155;
+            color: #cbd5e1;
+        }
+
+        .badge.done {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        /* Tariffs Table Animation */
+        .tariffs-box {
+            background-color: var(--input-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            font-size: 13px;
+            color: #bae6fd;
+            line-height: 1.5;
+            display: none; /* Show only when relevant */
         }
     </style>
 </head>
@@ -220,10 +275,22 @@
         <div class="header">
             <i class="fa-solid fa-bolt logo-icon"></i>
             <h2>Home E-Cal</h2>
-            <p class="subtitle">ගෘහස්ථ විදුලි පරිභෝජන ගණකය</p>
+            <div class="creator-badge">By Tharuk Bandara Edirisooriya</div>
+            <p class="subtitle">දෛනික ගෘහස්ථ විදුලි පරිභෝජනය ගණනය කිරීම</p>
         </div>
 
-        <div id="loginView" class="active">
+        <div class="tariffs-box" id="tariffsBox">
+            <strong style="color:var(--accent-color);">දැනට මිලගනන් (2026-අප්‍රේල් 01 සිට):</strong>
+            <ul style="margin:10px 0 0 15px; padding:0;">
+                <li>පළමු ඒකක 30: ඒකකයක මිල රු. 8.00 (ස්ථාවර ගාස්තු රු. 150.00)</li>
+                <li>31 - 60 ඒකක: ඒකකයක මිල රු. 20.00 (ස්ථාවර ගාස්තු රු. 300.00)</li>
+                <li>61 - 90 ඒකක: ඒකකයක මිල රු. 30.00 (ස්ථාවර ගාස්තු රු. 400.00)</li>
+                <li>91 - 120 ඒකක: ඒකකයක මිල රු. 50.00 (ස්ථාවර ගාස්තු රු. 1000.00)</li>
+                <li>120+ ඒකක: ඒකකයක මිල රු. 75.00 (ස්ථාවර ගාස්තු රු. 1500.00)</li>
+            </ul>
+        </div>
+
+        <div id="profileView" class="active">
             <p style="text-align: center; font-size: 14px; margin-bottom: 25px; color: #cbd5e1;">ඔබගේ පෞද්ගලිකත්වය සුරැකීම සඳහා නම සහ රහස් අංකයක් ඇතුලත් කරන්න.</p>
             
             <div class="form-group" id="nameGroup">
@@ -248,56 +315,93 @@
             <div id="loginError" style="color: #ef4444; font-size: 13px; text-align: center; margin-top: 10px; display: none;">පින් අංකය වැරදියි!</div>
         </div>
 
-        <div id="dashboardView">
-            <div class="greeting-box">
+        <div id="readingView">
+            <div class="dashboard-box">
                 <h3 id="greetingText">ආයුබෝවන් Tharuk!</h3>
-                <p style="margin: 5px 0 0 0; font-size: 12px; color: var(--text-muted);" id="dateText"></p>
+                <div class="clock-display" id="liveClock">00:00:00</div>
+                <p style="margin: 0; font-size: 12px; color: var(--text-muted);" id="dateText"></p>
             </div>
 
             <div class="form-group">
-                <label>අද දින විදුලි මීටරයේ සටහන්ව ඇති අගය</label>
+                <label>වත්මන් විදුලි මීටරයේ සටහන්ව ඇති අගය</label>
                 <div class="input-wrapper">
                     <i class="fa-solid fa-gauge-high"></i>
-                    <input type="number" id="meterReading" placeholder="උදා: 12450">
+                    <input type="number" id="meterReadingInput" placeholder="Ex: 12450">
                 </div>
             </div>
 
-            <button onclick="saveReading()">
+            <button onclick="handleMeterReading()">
                 <i class="fa-solid fa-floppy-disk"></i> සටහන් කරන්න
             </button>
 
-            <div class="result-card" id="resultCard" style="display: none;">
-                <div style="color: var(--text-muted); font-size: 14px;">ගතවූ පැය 24 සඳහා විදුලි භාවිතය:</div>
-                <div class="value"><span id="unitsUsed">0</span> Units</div>
-                <div class="cost">දළ වියදම: රු. <span id="estimatedCost">0.00</span></div>
+            <div class="reading-screen" id="firstReadingScreen" style="display: none;">
+                <div style="color: var(--text-muted); font-size: 14px;"><i class="fa-solid fa-stopwatch"></i> පළමු කියවීම සටහන් විය:</div>
+                <div class="value"><span id="firstReadingValue">0.00</span> Units</div>
+                <div style="color: var(--success-color); font-size: 14px; font-weight: 500;">පැය 24කට පසු (හෙට) දෙවන කියවීම ඇතුලත් කරන්න.</div>
+            </div>
+
+            <div class="reading-screen" id="nextReadingDueScreen" style="display: none;">
+                <div style="color: var(--warning-color); font-size: 14px; font-weight: 500;"><i class="fa-solid fa-hourglass-half fa-spin"></i> දෙවන කියවීම පවතී:</div>
+                <div class="costEstimated">කරුණාකර පැය 24කට පසු නැවත මීටරය කියවා ඇතුලත් කරන්න. (දෙවන කියවීම හෙට සඳහා)</div>
             </div>
 
             <div class="history-list" id="historyList">
-                </div>
+                <strong style="color:#f8fafc; display:block; margin-bottom:10px;">දත්ත ඉතිහාසය:</strong>
+            </div>
 
-            <button class="logout-btn" onclick="logout()">
+            <button class="logout-btn" onclick="logout()" style="background-color:transparent; color:var(--text-muted); font-size:13px; margin-top:20px; padding:10px;">
                 <i class="fa-solid fa-right-from-bracket"></i> ගිණුමෙන් ඉවත් වන්න
+            </button>
+        </div>
+
+        <div id="resultView">
+            <div class="dashboard-box">
+                <h3 id="resultGreetingText">Tharuk, ඔබගේ දත්ත සූදානම්!</h3>
+            </div>
+
+            <div class="result-screen">
+                <div style="color: var(--text-muted); font-size: 14px;"><i class="fa-solid fa-bolt"></i> ගතවූ පැය 24 සඳහා විදුලි භාවිතය:</div>
+                <div class="units-value"><span id="unitsUsed">0</span> Units</div>
+                <div class="cost estimated-cost">දළ වියදම: රු. <span id="estimatedCost">0.00</span></div>
+            </div>
+            
+            <div style="text-align:center; color: var(--success-color); font-size: 20px; font-weight: 600; margin-top: 20px;">
+                <i class="fa-solid fa-circle-check"></i> සාර්ථකයි!
+            </div>
+
+            <button onclick="backToDashboard()" style="margin-top:20px; background-color: var(--input-bg); border: 2px solid var(--accent-color);">
+                <i class="fa-solid fa-gauge-high"></i> ආපසු උපකරණ පුවරුවට
             </button>
         </div>
     </div>
 
     <script>
-        // Check if user is already registered
+        let currentUser = { name: '', pin: '', readings: [] };
+        let liveClockInterval;
+
         window.onload = function() {
+            const savedName = localStorage.getItem('ecal_name');
             const savedPin = localStorage.getItem('ecal_pin');
-            if (savedPin) {
-                // Already registered, hide name input
+            if (savedName && savedPin) {
+                // If registered, show only PIN input
                 document.getElementById('nameGroup').style.display = 'none';
             }
-            
-            // Set current date
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('dateText').innerText = new Date().toLocaleDateString('si-LK', options);
+            // Show tariffs table only when relevant
+            document.getElementById('tariffsBox').style.display = 'none'; 
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('liveClock').innerText = `${hours}:${minutes}:${seconds}`;
         }
 
         function handleLogin() {
-            const pinInput = document.getElementById('userPin').value;
-            const nameInput = document.getElementById('userName').value;
+            const nameInput = document.getElementById('userName').value.trim();
+            const pinInput = document.getElementById('userPin').value.trim();
+            const savedName = localStorage.getItem('ecal_name');
             const savedPin = localStorage.getItem('ecal_pin');
             const errorDiv = document.getElementById('loginError');
 
@@ -307,20 +411,19 @@
                 return;
             }
 
-            if (!savedPin) {
+            if (!savedName) {
                 // New User Registration
                 if (!nameInput) {
                     errorDiv.innerText = "කරුණාකර ඔබගේ නම ඇතුලත් කරන්න.";
                     errorDiv.style.display = 'block';
                     return;
                 }
-                localStorage.setItem('ecal_pin', pinInput);
                 localStorage.setItem('ecal_name', nameInput);
+                localStorage.setItem('ecal_pin', pinInput);
                 showDashboard(nameInput);
             } else {
                 // Existing User Login
                 if (pinInput === savedPin) {
-                    const savedName = localStorage.getItem('ecal_name');
                     showDashboard(savedName);
                 } else {
                     errorDiv.innerText = "පින් අංකය වැරදියි!";
@@ -330,76 +433,112 @@
         }
 
         function showDashboard(name) {
-            document.getElementById('loginView').classList.remove('active');
-            document.getElementById('dashboardView').classList.add('active');
+            currentUser.name = name;
+            document.getElementById('profileView').classList.remove('active');
+            document.getElementById('readingView').classList.add('active');
             document.getElementById('greetingText').innerText = `ආයුබෝවන් ${name}!`;
-            updateHistoryUI();
+            document.getElementById('tariffsBox').style.display = 'block'; // Show tariffs animated at top
+            
+            liveClockInterval = setInterval(updateClock, 1000); // Live animated clock
+            
+            // Set current date
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('dateText').innerText = new Date().toLocaleDateString('si-LK', options);
+            
+            updateDashboardUI();
         }
 
-        function saveReading() {
-            const readingInput = parseFloat(document.getElementById('meterReading').value);
+        function handleMeterReading() {
+            const readingInput = parseFloat(document.getElementById('meterReadingInput').value);
             if (!readingInput || isNaN(readingInput)) {
                 alert("කරුණාකර නිවැරදි අගයක් ඇතුලත් කරන්න.");
                 return;
             }
 
-            const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
-            let readings = JSON.parse(localStorage.getItem('ecal_readings')) || [];
+            const now = new Date();
+            const timestamp = now.toISOString();
+            const today = timestamp.split('T')[0];
+            let readings = JSON.parse(localStorage.getItem('ecal_readings_' + currentUser.name)) || [];
 
-            // Check if already entered today
-            const existingIndex = readings.findIndex(r => r.date === today);
-            if (existingIndex !== -1) {
-                readings[existingIndex].value = readingInput; // Update today's reading
-            } else {
-                readings.push({ date: today, value: readingInput });
+            if (readings.length === 0) {
+                // First Reading (Reading 1)
+                readings.push({ timestamp: timestamp, date: today, value: readingInput });
+                alert("පළමු දත්තය සටහන් විය. කරුණාකර පැය 24කට පසු (හෙට) දෙවන අගය ඇතුලත් කරන්න.");
+            } else if (readings.length === 1) {
+                // Second Reading (Reading 2)
+                const firstReadingDate = new Date(readings[0].timestamp);
+                const hrsDiff = (now - firstReadingDate) / (1000 * 60 * 60);
+
+                if (hrsDiff >= 24) { // It's been 24 hours
+                    readings.push({ timestamp: timestamp, date: today, value: readingInput });
+                    showResult(readings);
+                } else { // Not yet 24 hours
+                    alert(`දෙවන කියවීම සඳහා කරුණාකර තව පැය ${ (24 - hrsDiff).toFixed(1) } ක් රැඳී සිටින්න.`);
+                }
+            } else { // Readings for multiple days, not covered by user's specific request
+                 readings.push({ timestamp: timestamp, date: today, value: readingInput });
             }
 
-            // Sort by date just in case
-            readings.sort((a, b) => new Date(a.date) - new Date(b.date));
-            localStorage.setItem('ecal_readings', JSON.stringify(readings));
+            // Save readings sorted by date just in case
+            readings.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+            localStorage.setItem('ecal_readings_' + currentUser.name, JSON.stringify(readings));
             
-            document.getElementById('meterReading').value = '';
-            updateHistoryUI();
+            document.getElementById('meterReadingInput').value = '';
+            updateDashboardUI();
         }
 
-        function updateHistoryUI() {
-            const readings = JSON.parse(localStorage.getItem('ecal_readings')) || [];
-            const resultCard = document.getElementById('resultCard');
-            const historyList = document.getElementById('historyList');
+        function showResult(readings) {
+            document.getElementById('readingView').classList.remove('active');
+            document.getElementById('resultView').classList.add('active');
+            document.getElementById('resultGreetingText').innerText = `${currentUser.name}, ඔබගේ දත්ත සූදානම්!`;
             
-            historyList.innerHTML = '<strong style="color:#f8fafc; display:block; margin-bottom:10px;">මෑතකාලීන දත්ත:</strong>';
-
-            if (readings.length >= 2) {
-                // Get the last two readings
-                const todayReading = readings[readings.length - 1];
-                const yesterdayReading = readings[readings.length - 2];
-                
-                const unitsUsed = todayReading.value - yesterdayReading.value;
-                
-                if (unitsUsed >= 0) {
-                    document.getElementById('unitsUsed').innerText = unitsUsed.toFixed(1);
-                    document.getElementById('estimatedCost').innerText = calculateDailyCost(unitsUsed).toFixed(2);
-                    resultCard.style.display = 'block';
-                } else {
-                    resultCard.style.display = 'none';
-                }
-            } else {
-                resultCard.style.display = 'none';
-                if (readings.length === 1) {
-                    historyList.innerHTML += `<div style="color:var(--accent-color); margin-top:10px;"><i class="fa-solid fa-circle-info"></i> පළමු දත්තය සටහන් විය. ගණනය කිරීම් බැලීම සඳහා හෙට දින අලුත් අගය ඇතුලත් කරන්න.</div>`;
-                }
+            // Get the last two readings
+            const read2 = readings[readings.length - 1];
+            const read1 = readings[readings.length - 2];
+            
+            const unitsUsed = read2.value - read1.value;
+            
+            if (unitsUsed >= 0) {
+                document.getElementById('unitsUsed').innerText = unitsUsed.toFixed(2);
+                document.getElementById('estimatedCost').innerText = calculateDailyCost(unitsUsed).toFixed(2);
             }
+        }
 
-            // Show last 5 days history
-            const recentReadings = readings.slice(-5).reverse();
-            recentReadings.forEach(r => {
-                historyList.innerHTML += `
-                    <div class="history-item">
-                        <span><i class="fa-regular fa-calendar"></i> ${r.date}</span>
-                        <span>${r.value} Units</span>
-                    </div>
-                `;
-            });
+        function updateDashboardUI() {
+            const readings = JSON.parse(localStorage.getItem('ecal_readings_' + currentUser.name)) || [];
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '<strong style="color:#f8fafc; display:block; margin-bottom:10px;">දත්ත ඉතිහාසය:</strong>';
+
+            if (readings.length === 0) {
+                document.getElementById('firstReadingScreen').style.display = 'none';
+                document.getElementById('nextReadingDueScreen').style.display = 'none';
+                historyList.innerHTML += `<div style="color:var(--text-muted); margin-top:10px;"><i class="fa-solid fa-clapperboard"></i> ප්‍රථම මීටර අගය ඇතුලත් කරන්න.</div>`;
+            } else if (readings.length === 1) {
+                // First Reading done, waiting for next day
+                document.getElementById('firstReadingScreen').style.display = 'block';
+                document.getElementById('nextReadingDueScreen').style.display = 'none';
+                document.getElementById('firstReadingValue').innerText = readings[0].value.toFixed(2);
+                document.getElementById('meterReadingInput').placeholder = "Ex: (හෙට අගය) 12465";
+            } else {
+                // More than 1 reading, process complete, show next time instructions
+                document.getElementById('firstReadingScreen').style.display = 'none';
+                document.getElementById('nextReadingDueScreen').style.display = 'block';
+                document.getElementById('meterReadingInput').placeholder = "Ex: (අද අගය) 12480";
+                
+                // Process only first and last to handle history log
+                const firstReading = readings[0];
+                const lastReading = readings[readings.length - 1];
+                const historyReadings = readings.slice(-5).reverse();
+                
+                historyReadings.forEach(r => {
+                    historyList.innerHTML += `
+                        <div class="history-item">
+                            <span><i class="fa-regular fa-calendar"></i> ${r.date}</span>
+                            <span>${r.value.toFixed(2)} Units <span class="badge ${ (r === lastReading) ? 'done' : '' }">${ (r === lastReading) ? 'Done' : 'Pending' }</span></span>
+                        </div>
+                    `;
+                });
+            }
         }
 
         // සරල කළ විදුලි බිල ගණනය කිරීම (දළ වියදම)
@@ -423,10 +562,16 @@
             return monthlyBill / 30; // දෛනික වියදම
         }
 
+        function backToDashboard() {
+            document.getElementById('resultView').classList.remove('active');
+            document.getElementById('readingView').classList.add('active');
+        }
+
         function logout() {
+            clearInterval(liveClockInterval); // stop animated clock
             document.getElementById('dashboardView').classList.remove('active');
             document.getElementById('loginView').classList.add('active');
-            document.getElementById('userPin').value = '';
+            document.getElementById('tariffsBox').style.display = 'none'; // hide tariffs animated at top
             
             // Show only PIN input if already registered
             if(localStorage.getItem('ecal_pin')) {
