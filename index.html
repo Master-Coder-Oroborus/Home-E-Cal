@@ -3,24 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home E-Cal | Cyberpunk Energy Dashboard</title>
+    <title>Home E-Cal | Premium Electricity Tracker</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Sinhala:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- Sci-Fi / Cyberpunk Theme --- */
+        /* Full-Screen Premium Theme (Restored Classic Aesthetic) */
         :root {
-            --bg-dark: #070b14;        /* Deep Space Blue/Black */
-            --panel-bg: rgba(13, 20, 36, 0.7); /* Glassmorphism Panel */
-            --border-neon: rgba(0, 240, 255, 0.3);
-            --text-main: #e2e8f0;
-            --neon-cyan: #00f0ff;      /* Bright Cyan from video */
-            --neon-blue: #3b82f6;
-            --neon-green: #10b981;     /* Cost color */
-            --danger-color: #ff2a2a;
-            --danger-bg: rgba(255, 42, 42, 0.1);
-            --user-custom-bg: #e8d3b4; /* Preserved Custom BG for Popup */
+            --bg-cream: #fdf6e9; /* Cream Background */
+            --card-white: #ffffff;
+            --primary-maroon: #7f1d1d; /* Deep Red/Maroon */
+            --primary-light: #991b1b;
+            --accent-gold: #d97706; /* Golden Yellow */
+            --text-dark: #27272a;
+            --text-light: #fefce8;
+            --danger-color: #ef4444;
+            --danger-bg: #fef2f2;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -28,221 +27,211 @@
         body, html {
             width: 100%; min-height: 100vh;
             font-family: 'Poppins', 'Noto Sans Sinhala', sans-serif;
-            background-color: var(--bg-dark); color: var(--text-main);
+            background-color: var(--bg-cream); color: var(--text-dark);
             overflow-x: hidden; position: relative;
         }
 
-        /* --- 3D Cyber Grid Background (Like Video) --- */
-        .cyber-grid {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: 
-                linear-gradient(rgba(0, 240, 255, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 240, 255, 0.08) 1px, transparent 1px);
-            background-size: 40px 40px;
-            transform: perspective(600px) rotateX(60deg) translateY(-50px) translateZ(-200px);
-            opacity: 0.5; z-index: 0; pointer-events: none;
-            animation: gridMove 20s linear infinite;
+        /* --- New Subtle Background Animations --- */
+        .bg-animations { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .bg-anim-item {
+            position: absolute; color: rgba(217, 119, 6, 0.08); /* Faint Gold */
+            font-size: 80px; animation: floatUp 20s infinite linear; bottom: -120px;
+        }
+        .bg-anim-item:nth-child(1) { left: 15%; animation-duration: 25s; animation-delay: 0s; font-size: 150px; }
+        .bg-anim-item:nth-child(2) { left: 35%; animation-duration: 18s; animation-delay: 5s; font-size: 90px; }
+        .bg-anim-item:nth-child(3) { left: 60%; animation-duration: 28s; animation-delay: 2s; font-size: 120px; }
+        .bg-anim-item:nth-child(4) { left: 80%; animation-duration: 22s; animation-delay: 8s; font-size: 80px; }
+        .bg-anim-item:nth-child(5) { left: 5%; animation-duration: 30s; animation-delay: 12s; font-size: 100px; }
+        
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
         }
 
-        @keyframes gridMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 400px; }
-        }
-
-        /* Floating Light Particles */
-        .particles { position: fixed; width: 100%; height: 100%; z-index: 1; pointer-events: none; overflow: hidden;}
-        .particle {
-            position: absolute; width: 3px; height: 3px; background: var(--neon-cyan); border-radius: 50%;
-            box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
-            animation: floatUp 15s infinite linear; opacity: 0;
-        }
-        .particle:nth-child(1) { left: 20%; animation-duration: 12s; animation-delay: 1s; }
-        .particle:nth-child(2) { left: 50%; animation-duration: 18s; animation-delay: 5s; width: 4px; height: 4px; }
-        .particle:nth-child(3) { left: 80%; animation-duration: 10s; animation-delay: 2s; }
-        .particle:nth-child(4) { left: 10%; animation-duration: 22s; animation-delay: 8s; width: 2px; height: 2px; }
-        .particle:nth-child(5) { left: 90%; animation-duration: 14s; animation-delay: 4s; }
-
-        @keyframes floatUp { 0% { transform: translateY(100vh); opacity: 0; } 50% { opacity: 0.8; } 100% { transform: translateY(-10vh); opacity: 0; } }
-
-        /* --- View Containers --- */
+        /* --- Views Container --- */
         .view-container { display: none; width: 100%; min-height: 100vh; flex-direction: column; position: relative; z-index: 2; }
-        .view-container.active { display: flex; animation: fadeIn 0.8s ease; }
-        @keyframes fadeIn { from { opacity: 0; filter: blur(10px); transform: scale(0.98); } to { opacity: 1; filter: blur(0); transform: scale(1); } }
+        .view-container.active { display: flex; animation: fadeIn 0.6s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- Loading Overlay --- */
         #loadingOverlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: rgba(7, 11, 20, 0.95); backdrop-filter: blur(10px);
+            background-color: rgba(253, 246, 233, 0.95);
             z-index: 9999; display: none; justify-content: center; align-items: center; flex-direction: column;
         }
 
-        /* --- Login Screen (Advanced Energy Core) --- */
+        /* --- Login Screen --- */
         .login-wrapper { display: flex; flex-direction: row; flex-grow: 1; width: 100%; }
         .login-left {
-            flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
-            background: radial-gradient(circle at center, rgba(0, 240, 255, 0.1) 0%, transparent 70%);
-            border-right: 1px solid var(--border-neon); position: relative;
+            flex: 1; background: linear-gradient(135deg, var(--primary-maroon), var(--primary-light)); color: white;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; text-align: center;
+            position: relative; overflow: hidden;
         }
         
-        .cyber-core { position: relative; width: 280px; height: 280px; margin-bottom: 40px; display: flex; justify-content: center; align-items: center; }
+        /* New Elegant Energy Core Animation for Login */
+        .cyber-core { position: relative; width: 220px; height: 220px; margin-bottom: 40px; display: flex; justify-content: center; align-items: center; }
         .core-center {
-            width: 70px; height: 70px; background: var(--neon-cyan); border-radius: 50%;
-            box-shadow: 0 0 40px var(--neon-cyan), 0 0 80px var(--neon-blue), inset 0 0 20px #fff;
-            animation: corePulse 1s infinite alternate; z-index: 10;
+            width: 60px; height: 60px; background: var(--accent-gold); border-radius: 50%;
+            box-shadow: 0 0 20px var(--accent-gold), 0 0 40px rgba(255,255,255,0.5), inset 0 0 10px #fff;
+            animation: corePulse 1.5s infinite alternate; z-index: 10;
         }
         .orbit-ring { position: absolute; border-radius: 50%; animation: spinRing linear infinite; }
-        .orbit-ring.r1 { width: 140px; height: 140px; border: 2px solid rgba(0, 240, 255, 0.4); border-left-color: transparent; border-right-color: transparent; animation-duration: 4s; }
-        .orbit-ring.r2 { width: 200px; height: 200px; border: 2px dashed rgba(59, 130, 246, 0.6); animation-duration: 8s; animation-direction: reverse; }
-        .orbit-ring.r3 { width: 260px; height: 260px; border: 1px solid rgba(255, 255, 255, 0.1); border-top: 3px solid var(--neon-cyan); animation-duration: 12s; }
+        .orbit-ring.r1 { width: 110px; height: 110px; border: 3px dashed rgba(255, 255, 255, 0.6); animation-duration: 6s; }
+        .orbit-ring.r2 { width: 160px; height: 160px; border: 2px solid rgba(217, 119, 6, 0.8); border-left-color: transparent; border-right-color: transparent; animation-duration: 4s; animation-direction: reverse; }
+        .orbit-ring.r3 { width: 210px; height: 210px; border: 1px dotted rgba(255, 255, 255, 0.4); border-top: 3px solid var(--accent-gold); animation-duration: 10s; }
         
-        @keyframes corePulse { 0% { transform: scale(0.9); opacity: 0.8; } 100% { transform: scale(1.1); opacity: 1; filter: brightness(1.3); } }
+        @keyframes corePulse { 0% { transform: scale(0.9); opacity: 0.8; } 100% { transform: scale(1.1); opacity: 1; filter: brightness(1.2); } }
         @keyframes spinRing { 100% { transform: rotate(360deg); } }
 
-        .login-right { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px; }
-        @media (max-width: 900px) { .login-wrapper { flex-direction: column; } .login-left { padding: 60px 20px; border-right: none; border-bottom: 1px solid var(--border-neon); } }
+        .login-right { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px; background-color: var(--bg-cream); }
+        @media (max-width: 900px) { .login-wrapper { flex-direction: column; } .login-left { padding: 60px 20px; } }
 
         /* --- Dashboard Header --- */
         .header-full {
-            background: rgba(10, 15, 30, 0.8); backdrop-filter: blur(15px);
-            width: 100%; padding: 20px 4%; color: var(--text-main);
-            border-bottom: 1px solid var(--border-neon); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; z-index: 10;
+            background: linear-gradient(135deg, var(--primary-maroon), var(--primary-light));
+            width: 100%; padding: 20px 4%; color: var(--text-light); box-shadow: 0 10px 30px rgba(127, 29, 29, 0.15);
+            display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; position: relative; z-index: 10;
         }
 
-        .header-left { display: flex; align-items: center; gap: 15px; }
-        .app-title { font-family: 'Share Tech Mono', monospace; font-size: 28px; font-weight: 700; color: #fff; text-shadow: 0 0 15px var(--neon-cyan); display: flex; align-items: center; gap: 15px; }
+        .header-left { display: flex; align-items: center; gap: 10px; }
+        .app-title { font-size: 28px; font-weight: 700; color: var(--accent-gold); letter-spacing: 1px; display: flex; align-items: center; gap: 10px; text-shadow: 0 0 10px rgba(217,119,6,0.3); }
         
+        .house-bulb-anim { position: relative; width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; }
+        .house-bulb-anim .fa-house { font-size: 35px; color: rgba(255, 255, 255, 0.15); position: absolute; }
+        .house-bulb-anim .fa-lightbulb { font-size: 16px; color: var(--accent-gold); position: absolute; top: 15px; animation: bulbFlicker 3s infinite; }
+        @keyframes bulbFlicker { 0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--accent-gold), 0 0 20px var(--accent-gold); } 50% { opacity: 0.3; text-shadow: none; } 55% { opacity: 0.9; text-shadow: 0 0 10px var(--accent-gold); } 60% { opacity: 0.3; text-shadow: none; } 80% { opacity: 1; text-shadow: 0 0 15px var(--accent-gold); } }
+
         .header-center { display: flex; justify-content: center; gap: 25px; padding: 0 20px; }
-        .app-icon { font-size: 22px; color: rgba(255,255,255,0.3); animation: dataScan 4s infinite; }
+        .app-icon { font-size: 24px; color: rgba(255, 255, 255, 0.4); animation: iconGlowWave 3s infinite; transition: 0.3s; }
         .app-icon:nth-child(1) { animation-delay: 0.0s; } .app-icon:nth-child(2) { animation-delay: 0.2s; }
         .app-icon:nth-child(3) { animation-delay: 0.4s; } .app-icon:nth-child(4) { animation-delay: 0.6s; }
         .app-icon:nth-child(5) { animation-delay: 0.8s; } .app-icon:nth-child(6) { animation-delay: 1.0s; }
-        
-        @keyframes dataScan { 0%, 100% { color: rgba(255,255,255,0.3); filter: drop-shadow(0 0 0 transparent); transform: scale(1); } 50% { color: var(--neon-cyan); filter: drop-shadow(0 0 10px var(--neon-cyan)); transform: scale(1.2); } }
+        @keyframes iconGlowWave { 0%, 100% { color: rgba(255, 255, 255, 0.4); transform: translateY(0); } 50% { color: var(--accent-gold); transform: translateY(-4px); filter: drop-shadow(0 0 8px rgba(217,119,6,0.6)); } }
 
         .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; }
-        .digital-clock { font-family: 'Share Tech Mono', monospace; font-size: 22px; color: var(--neon-cyan); background: rgba(0, 240, 255, 0.05); padding: 5px 15px; border-radius: 4px; border: 1px solid var(--border-neon); text-shadow: 0 0 10px var(--neon-cyan); letter-spacing: 2px; }
+        .greeting { font-size: 16px; font-weight: 500; opacity: 0.9; margin-bottom: 5px; }
+        
+        /* Themed Gold LED Digital Clock */
+        .digital-clock {
+            font-family: 'Share Tech Mono', monospace; font-size: 22px; color: #fcd34d;
+            background-color: #1a0505; padding: 5px 15px; border-radius: 6px;
+            display: inline-block; border: 1px solid rgba(217, 119, 6, 0.3);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 0 15px rgba(217, 119, 6, 0.2);
+            letter-spacing: 2px; text-shadow: 0 0 8px rgba(217, 119, 6, 0.8);
+        }
 
         @media (max-width: 900px) { .header-full { grid-template-columns: 1fr; text-align: center; gap: 20px; } .header-left, .header-center, .header-right { justify-content: center; align-items: center; } }
 
         /* --- Main Content Grid --- */
-        .main-content-wrapper { width: 100%; max-width: 1500px; margin: 0 auto; padding: 40px 5%; flex-grow: 1; display: flex; flex-direction: column; }
+        .main-content-wrapper { width: 100%; max-width: 1400px; margin: 0 auto; padding: 40px 5%; flex-grow: 1; display: flex; flex-direction: column; }
         .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
         @media (max-width: 900px) { .grid-layout { grid-template-columns: 1fr; gap: 30px; } }
 
-        /* --- Cyber Cards --- */
-        .card {
-            background: var(--panel-bg); backdrop-filter: blur(12px); border-radius: 16px; padding: 35px;
-            border: 1px solid var(--border-neon); box-shadow: 0 0 20px rgba(0,0,0,0.5), inset 0 0 20px rgba(0, 240, 255, 0.05);
-            width: 100%; position: relative; overflow: hidden;
-        }
-        
-        /* Sci-Fi Corners */
-        .card::before, .card::after { content: ''; position: absolute; width: 20px; height: 20px; border: 2px solid var(--neon-cyan); transition: 0.3s; }
-        .card::before { top: 0; left: 0; border-right: none; border-bottom: none; border-top-left-radius: 16px; }
-        .card::after { bottom: 0; right: 0; border-left: none; border-top: none; border-bottom-right-radius: 16px; }
-
-        .card-glow { box-shadow: 0 0 30px rgba(0, 240, 255, 0.1), inset 0 0 30px rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.5); }
-
-        .card-title { font-family: 'Share Tech Mono', monospace; font-size: 20px; color: var(--neon-cyan); margin-bottom: 25px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px; text-transform: uppercase; }
+        /* --- Cards --- */
+        .card { background-color: var(--card-white); border-radius: 20px; padding: 35px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid rgba(217, 119, 6, 0.2); width: 100%; }
+        .card-maroon { background: linear-gradient(135deg, var(--primary-maroon), #591111); color: white; border: none; box-shadow: 0 15px 35px rgba(127, 29, 29, 0.25); }
+        .card-title { font-size: 18px; font-weight: 600; margin-bottom: 25px; color: var(--primary-maroon); display: flex; align-items: center; gap: 10px; }
+        .card-maroon .card-title { color: #fef3c7; }
 
         /* Summary Area */
         .summary-grid { display: flex; justify-content: space-between; position: relative; text-align: center; }
-        .summary-grid::after { content: ''; position: absolute; left: 50%; top: 10%; bottom: 10%; width: 1px; background-color: var(--border-neon); }
+        .summary-grid::after { content: ''; position: absolute; left: 50%; top: 5%; bottom: 5%; width: 1px; background-color: rgba(255,255,255,0.2); }
         .summary-col { flex: 1; }
-        .summary-label { font-size: 14px; color: #94a3b8; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
-        .summary-value { font-family: 'Share Tech Mono', monospace; font-size: 50px; font-weight: 700; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.5); line-height: 1; }
-        .val-cost { color: var(--neon-green); text-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
-        .currency { font-size: 22px; font-weight: 400; }
-        .note-text { font-size: 12px; color: #64748b; margin-top: 10px; display: block; }
+        .summary-label { font-size: 14px; color: #d1d5db; margin-bottom: 5px; }
+        .summary-value { font-size: 45px; font-weight: 700; line-height: 1; }
+        .val-cost { color: #fcd34d; }
+        .currency { font-size: 20px; font-weight: 400; }
+        .note-text { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 8px; display: block; }
 
         /* Inputs & Buttons */
         .form-group { margin-bottom: 25px; }
-        .form-group label { font-size: 15px; color: #94a3b8; display: block; margin-bottom: 10px; letter-spacing: 1px;}
-        input { width: 100%; padding: 18px 20px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-neon); border-radius: 8px; font-family: 'Share Tech Mono', monospace; font-size: 20px; color: var(--neon-cyan); outline: none; transition: all 0.3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); }
-        input:focus { border-color: #fff; box-shadow: 0 0 15px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0,0,0,0.8); }
+        .form-group label { font-size: 15px; font-weight: 600; color: var(--text-dark); display: block; margin-bottom: 10px;}
+        input { width: 100%; padding: 18px 20px; background-color: #f9fafb; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 18px; outline: none; transition: all 0.3s; }
+        input:focus { border-color: var(--primary-maroon); background-color: #fff; box-shadow: 0 0 0 4px rgba(127, 29, 29, 0.1); }
         
-        button.btn-primary { width: 100%; padding: 18px; background: transparent; color: var(--neon-cyan); border: 1px solid var(--neon-cyan); border-radius: 8px; font-family: 'Share Tech Mono', monospace; font-size: 20px; cursor: pointer; transition: all 0.3s; box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 15px rgba(0, 240, 255, 0.1); display: flex; justify-content: center; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 2px; }
-        button.btn-primary:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 30px rgba(0, 240, 255, 0.6); transform: translateY(-2px); }
+        button.btn-primary { width: 100%; padding: 18px; background-color: var(--primary-maroon); color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 25px rgba(127, 29, 29, 0.25); display: flex; justify-content: center; align-items: center; gap: 10px; }
+        button.btn-primary:hover { background-color: var(--primary-light); transform: translateY(-3px); }
 
-        /* Accordions & History */
-        .accordion { background: rgba(0,0,0,0.4); border: 1px solid var(--border-neon); border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
-        .accordion-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 16px; color: var(--text-main); background: rgba(0, 240, 255, 0.05); transition: 0.3s; }
-        .accordion-header:hover { background: rgba(0, 240, 255, 0.1); }
-        .accordion.open .accordion-header i.fa-chevron-down { transform: rotate(180deg); color: var(--neon-cyan); }
-        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.6s ease-out; }
+        /* Accordions */
+        .accordion { background-color: var(--card-white); border: 1px solid rgba(217, 119, 6, 0.2); border-radius: 15px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+        .accordion-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; font-size: 16px; background-color: #fff; transition: background 0.3s; }
+        .accordion-header:hover { background-color: #fafaf9; }
+        .accordion.open .accordion-header i.fa-chevron-down { transform: rotate(180deg); color: var(--primary-maroon); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.6s ease-out; background-color: var(--card-white); }
         .accordion.open .accordion-content { max-height: 2000px; }
-        .content-inner { padding: 0 20px 20px 20px; }
+        .content-inner { padding: 0 20px 20px 20px; font-size: 15px; }
 
-        /* History Items - Sci-Fi Grid Look */
-        .history-item { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid rgba(0,240,255,0.1); align-items: center; background: rgba(255,255,255,0.02); margin-top: 10px; border-radius: 6px; border-left: 3px solid transparent; transition: 0.3s; }
-        .history-item:hover { border-left: 3px solid var(--neon-cyan); background: rgba(0,240,255,0.05); }
-        .h-date { font-size: 14px; color: #cbd5e1; }
-        .h-time { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #64748b; margin-top: 4px; }
-        .h-added { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #eab308; margin-top: 4px; } /* Newly added units */
-        .h-units { font-family: 'Share Tech Mono', monospace; font-weight: 700; color: var(--neon-cyan); font-size: 18px;}
-        .h-cost { font-family: 'Share Tech Mono', monospace; font-weight: 700; color: var(--neon-green); font-size: 18px;}
+        /* Cumulative History Styling */
+        .history-item { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid rgba(127, 29, 29, 0.1); align-items: center; background: #fff; margin-top: 10px; border-radius: 8px; border-left: 4px solid transparent; transition: 0.3s;}
+        .history-item:hover { border-left: 4px solid var(--primary-maroon); background: #fafaf9; }
+        .h-date { font-weight: 500; font-size: 14px; color: var(--text-dark); }
+        .h-time { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #6b7280; margin-top: 4px;}
+        .h-added { font-size: 13px; color: var(--accent-gold); font-weight: 600; margin-top: 4px; }
+        .h-units { font-weight: 700; color: var(--primary-maroon); font-size: 18px;}
+        .h-cost { font-weight: 700; color: #047857; font-size: 18px;}
         
-        .history-initial { border-left: 3px solid #eab308; background: rgba(234, 179, 8, 0.05); }
-
-        .tariff-item { padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.1); font-family: 'Share Tech Mono', monospace; font-size: 15px; color: #cbd5e1;}
+        .history-initial { border-left: 4px solid var(--accent-gold); background: rgba(217, 119, 6, 0.05); }
+        .tariff-item { padding: 12px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); font-size: 14px;}
 
         /* --- Danger Zone --- */
-        .danger-zone { margin-top: 50px; padding: 35px; background: var(--danger-bg); border: 1px solid var(--danger-color); border-radius: 12px; text-align: center; width: 100%; position: relative; z-index: 2; box-shadow: 0 0 20px rgba(255, 42, 42, 0.1); }
-        .danger-zone p { font-size: 15px; color: var(--text-main); margin: 15px 0; }
-        button.btn-danger { padding: 15px 35px; background: transparent; color: var(--danger-color); border: 1px solid var(--danger-color); border-radius: 8px; font-family: 'Share Tech Mono', monospace; font-size: 16px; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;}
-        button.btn-danger:hover { background: var(--danger-color); color: #fff; box-shadow: 0 0 20px rgba(255, 42, 42, 0.5); }
+        .danger-zone { margin-top: 50px; padding: 35px; background-color: var(--danger-bg); border: 2px dashed var(--danger-color); border-radius: 15px; text-align: center; width: 100%; position: relative; z-index: 2;}
+        .warning-anim i { font-size: 45px; color: var(--danger-color); animation: warningPulse 1s infinite alternate; }
+        @keyframes warningPulse { 0% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(239,68,68,0.5));} 100% { transform: scale(1.1); filter: drop-shadow(0 0 15px rgba(239,68,68,0.9));} }
+        .danger-zone p { font-size: 16px; color: var(--danger-color); margin: 15px 0; font-weight: 500; }
+        button.btn-danger { padding: 15px 35px; background-color: var(--danger-color); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3); display: inline-flex; align-items: center; gap: 10px; }
+        button.btn-danger:hover { background-color: #dc2626; transform: translateY(-3px); }
 
-        /* --- Custom Popup Modal (Strict compliance to e8d3b4 requirement) --- */
-        .popup-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 10000; opacity: 0; transition: 0.3s; }
+        /* --- Custom Smart Popup Modal --- */
+        .popup-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 10000; opacity: 0; transition: opacity 0.3s ease; }
         .popup-overlay.show { display: flex; opacity: 1; }
-        
-        /* The specific requested background color is applied here! */
-        .popup-box { background-color: var(--user-custom-bg); padding: 40px; border-radius: 16px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.8); transform: scale(0.8); transition: 0.3s; border: 2px solid #fff; }
+        .popup-box { background-color: #fff; padding: 40px; border-radius: 20px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.3); transform: scale(0.8); transition: transform 0.3s ease; border-top: 6px solid var(--accent-gold); }
         .popup-overlay.show .popup-box { transform: scale(1); }
-        
-        .popup-icon { font-size: 60px; color: #1e293b; margin-bottom: 20px; }
-        .popup-title { font-size: 24px; font-weight: 700; color: #0f172a; margin-bottom: 15px; text-transform: uppercase;}
-        .popup-text { font-size: 16px; color: #334155; line-height: 1.6; margin-bottom: 25px; font-weight: 500;}
-        .popup-time { font-family: 'Share Tech Mono', monospace; font-weight: 700; color: #000; font-size: 18px; padding: 5px 10px; background: rgba(0,0,0,0.1); border-radius: 6px;}
-        
-        .btn-ok { background: #0f172a; color: var(--user-custom-bg); border: none; padding: 15px 40px; border-radius: 8px; font-family: 'Share Tech Mono', monospace; font-size: 18px; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
-        .btn-ok:hover { background: #1e293b; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .popup-icon { font-size: 55px; color: var(--accent-gold); margin-bottom: 20px; animation: bounceIn 0.6s; }
+        @keyframes bounceIn { 0% { transform: scale(0); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        .popup-title { font-size: 22px; font-weight: 700; color: var(--primary-maroon); margin-bottom: 15px; }
+        .popup-text { font-size: 15px; color: #4b5563; line-height: 1.6; margin-bottom: 25px; }
+        .popup-time { font-family: 'Share Tech Mono', monospace; font-weight: 700; color: var(--primary-maroon); font-size: 18px; padding: 5px 12px; background: rgba(127,29,29,0.1); border-radius: 8px;}
+        .btn-ok { background-color: var(--primary-maroon); color: white; border: none; padding: 12px 35px; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.3s; }
+        .btn-ok:hover { background-color: var(--primary-light); }
 
         /* --- Footer --- */
-        .app-footer { background: rgba(7, 11, 20, 0.9); border-top: 1px solid var(--border-neon); width: 100%; padding: 25px 20px; text-align: center; margin-top: auto; position: relative; z-index: 10; }
-        .creator-text { font-size: 14px; color: #94a3b8; letter-spacing: 1px; }
-        .fb-link { display: inline-flex; align-items: center; gap: 10px; margin-top: 10px; color: var(--neon-cyan); text-decoration: none; font-family: 'Share Tech Mono', monospace; font-size: 15px; transition: 0.3s; }
-        .fb-link:hover { text-shadow: 0 0 10px var(--neon-cyan); }
+        .app-footer { background-color: var(--primary-maroon); color: white; width: 100%; padding: 25px 20px; text-align: center; margin-top: auto; box-shadow: 0 -10px 20px rgba(0,0,0,0.15); position: relative; z-index: 10; border-top: 2px solid rgba(217, 119, 6, 0.2); }
+        .creator-text { font-size: 15px; font-weight: 500; letter-spacing: 0.5px; color: rgba(255,255,255,0.9); }
+        .fb-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; color: var(--accent-gold); text-decoration: none; font-weight: 600; font-size: 15px; transition: opacity 0.3s; }
+        .fb-link:hover { opacity: 0.8; text-shadow: 0 0 8px var(--accent-gold); }
     </style>
 </head>
 <body>
 
-    <div class="cyber-grid"></div>
-    <div class="particles">
-        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-        <div class="particle"></div><div class="particle"></div>
+    <div class="bg-animations">
+        <i class="fa-solid fa-bolt bg-anim-item"></i>
+        <i class="fa-solid fa-plug bg-anim-item"></i>
+        <i class="fa-solid fa-lightbulb bg-anim-item"></i>
+        <i class="fa-solid fa-plug-circle-bolt bg-anim-item"></i>
+        <i class="fa-solid fa-bolt bg-anim-item"></i>
     </div>
 
     <div id="customPopup" class="popup-overlay">
         <div class="popup-box">
-            <i class="fa-solid fa-satellite-dish popup-icon"></i>
-            <div class="popup-title">දත්ත ග්‍රහණය විය!</div>
+            <i class="fa-solid fa-circle-check popup-icon"></i>
+            <div class="popup-title">දත්ත සටහන් විය!</div>
             <div class="popup-text">
-                පද්ධතිය ඔබගේ කියවීම සාර්ථකව <span class="popup-time" id="popupTimeText">--:--</span> ට සමමුහුර්ත (Sync) කරගත්තා.<br><br>
-                නිවැරදි දෛනික ගණනයක් පවත්වා ගැනීමට හෙට දිනයේදීත් ආසන්න වශයෙන් මෙම වෙලාවටම දත්ත ඇතුළත් කරන්න.
+                ඔබගේ මීටර කියවීම සාර්ථකව <span class="popup-time" id="popupTimeText">--:--</span> ට සටහන් කරගත්තා.<br><br>
+                නිවැරදි දෛනික ගණනයක් පවත්වා ගැනීමට හෙට දිනයේදීත් ආසන්න වශයෙන් මෙම වෙලාවටම මීටර කියවීම ඇතුළත් කරන්න.
             </div>
-            <button class="btn-ok" onclick="closePopup()">තහවුරු කරන්න</button>
+            <button class="btn-ok" onclick="closePopup()">හරි, තේරුණා</button>
         </div>
     </div>
 
     <div id="loadingOverlay">
-        <div class="cyber-core" style="width:120px; height:120px; margin-bottom:20px;">
+        <div class="cyber-core" style="width:100px; height:100px; margin-bottom:20px;">
             <div class="core-center" style="width:30px; height:30px;"></div>
-            <div class="orbit-ring r1" style="width:70px; height:70px;"></div>
-            <div class="orbit-ring r2" style="width:100px; height:100px;"></div>
+            <div class="orbit-ring r1" style="width:60px; height:60px;"></div>
+            <div class="orbit-ring r2" style="width:90px; height:90px;"></div>
         </div>
-        <h2 style="color: var(--neon-cyan); font-family: 'Share Tech Mono', monospace; letter-spacing: 2px;">PROCESSING...</h2>
+        <h2 style="color: var(--primary-maroon); font-size: 18px;">දත්ත සැකසෙමින් පවතී...</h2>
     </div>
 
     <div id="loginView" class="view-container active">
@@ -255,35 +244,33 @@
                     <div class="orbit-ring r3"></div>
                 </div>
 
-                <h1 style="font-family: 'Share Tech Mono', monospace; font-size: 60px; color: #fff; text-shadow: 0 0 30px var(--neon-cyan); letter-spacing: 2px; margin-bottom: 5px;">Home E-Cal</h1>
-                <p style="font-size: 16px; color: var(--neon-cyan); letter-spacing: 4px; text-transform: uppercase;">Smart Energy Grid</p>
+                <h1 style="font-size: 50px; margin-bottom: 5px; color: var(--accent-gold); text-shadow: 0 0 20px rgba(217, 119, 6, 0.5);">Home E-Cal</h1>
+                <p style="font-size: 18px; opacity: 0.9; font-weight: 300; letter-spacing: 1px;">ගෘහස්ථ විදුලි පරිභෝජන කළමනාකරු</p>
             </div>
             
             <div class="login-right">
-                <div class="card card-glow" style="max-width: 450px;">
-                    <h2 class="card-title" style="justify-content: center; font-size: 24px; margin-bottom: 35px;">
-                        <i class="fa-solid fa-shield-halved"></i> SYSTEM LOGIN
-                    </h2>
+                <div class="card" style="width: 100%; max-width: 450px; padding: 40px 35px; position: relative; z-index: 5;">
+                    <h2 style="text-align: center; margin-bottom: 35px; color: var(--primary-maroon); font-size: 24px;">ආරක්ෂිතව ඇතුලත් වන්න</h2>
                     <div class="form-group" id="nameGroup">
-                        <label>USER ID (ඔබගේ නම)</label>
-                        <input type="text" id="userName" placeholder="Enter ID">
+                        <label>ඔබගේ නම</label>
+                        <input type="text" id="userName" placeholder="Ex: Tharuk">
                     </div>
                     <div class="form-group">
-                        <label>ACCESS PIN (රහස්‍ය අංකය)</label>
-                        <input type="password" id="userPin" placeholder="****">
+                        <label>රහස් පින් අංකය (PIN)</label>
+                        <input type="password" id="userPin" placeholder="අංක 4ක පින් එකක්">
                     </div>
-                    <button class="btn-primary" onclick="handleLogin()" style="margin-top: 40px;">
-                        INITIALIZE <i class="fa-solid fa-fingerprint"></i>
+                    <button class="btn-primary" onclick="handleLogin()" style="margin-top: 35px;">
+                        ඇතුලත් වෙන්න <i class="fa-solid fa-fingerprint" style="margin-left: 5px;"></i>
                     </button>
-                    <div id="loginError" style="color: var(--danger-color); font-size: 14px; text-align: center; margin-top: 15px; display: none; font-family: 'Share Tech Mono', monospace;">ACCESS DENIED! INVALID PIN.</div>
+                    <div id="loginError" style="color: #ef4444; font-size: 14px; text-align: center; margin-top: 15px; display: none; font-weight: 600;">පින් අංකය වැරදියි!</div>
                 </div>
             </div>
         </div>
         
         <div class="app-footer">
-            <div class="creator-text">SYSTEM SECURED | CREATED BY THARUK BANDARA EDIRISOORIYA</div>
+            <div class="creator-text">සැකසුම : තරුක් බංඩාර එදිරිසූරිය</div>
             <a href="https://www.facebook.com/tharukedirisooriya" target="_blank" class="fb-link">
-                <i class="fa-brands fa-facebook"></i> CONNECT ON SECURE NETWORK
+                <i class="fa-brands fa-facebook" style="font-size: 18px;"></i> www.facebook.com/tharukedirisooriya
             </a>
         </div>
     </div>
@@ -293,7 +280,11 @@
         <div class="header-full">
             <div class="header-left">
                 <div class="app-title">
-                    <i class="fa-solid fa-bolt" style="color: var(--neon-cyan);"></i> HOME E-CAL
+                    <div class="house-bulb-anim">
+                        <i class="fa-solid fa-house"></i>
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    Home E-Cal
                 </div>
             </div>
             
@@ -301,15 +292,15 @@
                 <i class="fa-solid fa-tv app-icon"></i>
                 <i class="fa-solid fa-plug app-icon"></i>
                 <i class="fa-solid fa-fan app-icon"></i>
-                <i class="fa-solid fa-microchip app-icon"></i>
+                <i class="fa-solid fa-blender app-icon"></i>
                 <i class="fa-solid fa-laptop app-icon"></i>
                 <i class="fa-solid fa-server app-icon"></i>
             </div>
 
             <div class="header-right">
-                <div style="font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #94a3b8; margin-bottom: 5px;" id="dashGreeting">USER: ACTIVE</div>
+                <div class="greeting" id="dashGreeting">ආයුබෝවන්!</div>
                 <div class="digital-clock" id="liveClock">00:00:00</div>
-                <a href="#" onclick="logout()" style="color: var(--danger-color); font-family: 'Share Tech Mono', monospace; font-size: 13px; margin-top: 10px; text-decoration: none; border-bottom: 1px solid var(--danger-color);">[ DISCONNECT ]</a>
+                <a href="#" onclick="logout()" style="color: rgba(255,255,255,0.8); font-size: 13px; text-decoration: underline; margin-top: 10px; transition: 0.3s;">ගිණුමෙන් ඉවත් වන්න</a>
             </div>
         </div>
 
@@ -317,13 +308,13 @@
             <div class="grid-layout">
                 
                 <div class="column">
-                    <div class="card card-glow summary-card">
-                        <div class="card-title"><i class="fa-solid fa-chart-pie"></i> CUMULATIVE USAGE (සමස්ත සාරාංශය)</div>
+                    <div class="card card-maroon summary-card">
+                        <div class="card-title"><i class="fa-solid fa-chart-pie"></i> සමස්ත ගණනය කිරීම් සාරාංශය</div>
                         <div class="summary-grid">
                             <div class="summary-col">
                                 <div class="summary-label">සමස්ත විදුලි ඒකක</div>
                                 <div class="summary-value" id="displayUnits">0.00</div>
-                                <div class="summary-label" style="font-size:12px; margin-top:5px; color: var(--neon-cyan);">Total Units</div>
+                                <div class="summary-label" style="font-size:12px; margin-top:5px; color:rgba(255,255,255,0.7);">Total Units</div>
                             </div>
                             <div class="summary-col">
                                 <div class="summary-label">දැනට මුළු බිල</div>
@@ -334,13 +325,12 @@
                     </div>
 
                     <div class="card input-card">
-                        <div class="card-title"><i class="fa-solid fa-terminal"></i> DATA INPUT (නව කියවීම)</div>
+                        <div class="card-title"><i class="fa-solid fa-keyboard"></i> නව මීටර කියවීම ඇතුළත් කරන්න</div>
                         <div class="form-group">
-                            <label>වත්මන් මීටර අගය ඇතුලත් කරන්න</label>
                             <input type="number" id="meterReadingInput" placeholder="Ex: 1012.5" step="0.1">
                         </div>
                         <button class="btn-primary" onclick="handleMeterReading()">
-                            SYNC DATA <i class="fa-solid fa-satellite-dish"></i>
+                            ගණනය කරන්න <i class="fa-solid fa-bolt-lightning"></i>
                         </button>
                     </div>
                 </div>
@@ -348,28 +338,28 @@
                 <div class="column">
                     <div class="accordion" id="accHistory">
                         <div class="accordion-header" onclick="toggleAccordion('accHistory')">
-                            <span><i class="fa-solid fa-database" style="color: var(--neon-cyan); margin-right: 10px;"></i> දත්ත ඉතිහාසය (DATA LOGS)</span>
+                            <span><i class="fa-solid fa-database" style="color: var(--primary-maroon); margin-right: 10px;"></i> දත්ත ඉතිහාසය (History)</span>
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <div class="accordion-content">
                             <div class="content-inner" id="historyList">
-                                <div style="text-align:center; color:#64748b; padding: 20px; font-family: 'Share Tech Mono', monospace;">NO DATA LOGS FOUND</div>
+                                <div style="text-align:center; color:#9ca3af; padding: 20px;">දත්ත නොමැත</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="accordion" id="accTariff">
                         <div class="accordion-header" onclick="toggleAccordion('accTariff')">
-                            <span><i class="fa-solid fa-file-invoice" style="color: var(--neon-cyan); margin-right: 10px;"></i> විදුලි ගාස්තු ව්‍යුහය (TARIFF SETTINGS)</span>
+                            <span><i class="fa-solid fa-file-invoice-dollar" style="color: var(--primary-maroon); margin-right: 10px;"></i> විදුලි ගාස්තු කාණ්ඩ (2026-Apr-01 සිට)</span>
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <div class="accordion-content">
                             <div class="content-inner">
-                                <div class="tariff-item"><strong>00 - 30 :</strong> රු. 8.00  (ස්ථාවර රු. 150)</div>
-                                <div class="tariff-item"><strong>31 - 60 :</strong> රු. 20.00 (ස්ථාවර රු. 300)</div>
-                                <div class="tariff-item"><strong>61 - 90 :</strong> රු. 30.00 (ස්ථාවර රු. 400)</div>
-                                <div class="tariff-item"><strong>91 - 120:</strong> රු. 50.00 (ස්ථාවර රු. 1000)</div>
-                                <div class="tariff-item"><strong>  120+  :</strong> රු. 75.00 (ස්ථාවර රු. 1500)</div>
+                                <div class="tariff-item"><strong>0-30:</strong> රු. 8.00 / ඒකකය (ස්ථාවර රු. 150)</div>
+                                <div class="tariff-item"><strong>31-60:</strong> රු. 20.00 / ඒකකය (ස්ථාවර රු. 300)</div>
+                                <div class="tariff-item"><strong>61-90:</strong> රු. 30.00 / ඒකකය (ස්ථාවර රු. 400)</div>
+                                <div class="tariff-item"><strong>91-120:</strong> රු. 50.00 / ඒකකය (ස්ථාවර රු. 1000)</div>
+                                <div class="tariff-item"><strong>120+:</strong> රු. 75.00 / ඒකකය (ස්ථාවර රු. 1500)</div>
                             </div>
                         </div>
                     </div>
@@ -378,18 +368,21 @@
             </div>
 
             <div class="danger-zone">
-                <p>පද්ධතිය අලුතින්ම ආරම්භ කිරීමට (Reset) අවශ්‍ය නම් පමණක් පහත විධානය ක්‍රියාත්මක කරන්න.</p>
+                <div class="warning-anim">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <p style="margin-top: 15px;">ගිණුම අලුතින් ආරම්භ කිරීමට අවශ්‍ය නම් පමණක් පහත බොත්තම භාවිතා කරන්න.</p>
                 <button class="btn-danger" onclick="resetAllData()">
-                    <i class="fa-solid fa-triangle-exclamation"></i> EXECUTE SYSTEM WIPE
+                    <i class="fa-solid fa-power-off"></i> සියළුම දත්ත මකා දමන්න (Master Reset)
                 </button>
             </div>
 
         </div>
 
         <div class="app-footer">
-            <div class="creator-text">SYSTEM SECURED | CREATED BY THARUK BANDARA EDIRISOORIYA</div>
+            <div class="creator-text">සැකසුම : තරුක් බංඩාර එදිරිසූරිය</div>
             <a href="https://www.facebook.com/tharukedirisooriya" target="_blank" class="fb-link">
-                <i class="fa-brands fa-facebook"></i> CONNECT ON SECURE NETWORK
+                <i class="fa-brands fa-facebook" style="font-size: 18px;"></i> www.facebook.com/tharukedirisooriya
             </a>
         </div>
 
@@ -407,7 +400,6 @@
             }
         }
 
-        // Digital LED Clock Logic
         function updateClock() {
             const now = new Date();
             let hours = now.getHours();
@@ -443,14 +435,14 @@
             const errorDiv = document.getElementById('loginError');
 
             if (!pinInput) {
-                errorDiv.innerText = "PIN REQUIRED FOR ACCESS.";
+                errorDiv.innerText = "කරුණාකර පින් අංකය ඇතුලත් කරන්න.";
                 errorDiv.style.display = 'block';
                 return;
             }
 
             if (!savedName) {
                 if (!nameInput) {
-                    errorDiv.innerText = "USER ID REQUIRED.";
+                    errorDiv.innerText = "කරුණාකර ඔබගේ නම ඇතුලත් කරන්න.";
                     errorDiv.style.display = 'block';
                     return;
                 }
@@ -463,7 +455,7 @@
                     await showLoading(1000);
                     showDashboard(savedName);
                 } else {
-                    errorDiv.innerText = "ACCESS DENIED! INVALID PIN.";
+                    errorDiv.innerText = "පින් අංකය වැරදියි!";
                     errorDiv.style.display = 'block';
                 }
             }
@@ -473,7 +465,7 @@
             currentUser.name = name;
             document.getElementById('loginView').classList.remove('active');
             document.getElementById('dashboardView').classList.add('active');
-            document.getElementById('dashGreeting').innerText = `USER: ${name.toUpperCase()}`;
+            document.getElementById('dashGreeting').innerText = `ආයුබෝවන්, ${name}!`;
             liveClockInterval = setInterval(updateClock, 1000);
             updateClock();
             updateDashboardData();
@@ -508,7 +500,6 @@
             
             let readings = JSON.parse(localStorage.getItem('ecal_readings_' + currentUser.name)) || [];
 
-            // Cumulative check
             if (readings.length > 0) {
                 const lastVal = readings[readings.length - 1].value;
                 if (readingInput < lastVal) {
@@ -531,19 +522,16 @@
             showPopup(timeStr);
         }
 
-        // --- CUMULATIVE CALCULATION LOGIC ---
         function updateDashboardData() {
             const readings = JSON.parse(localStorage.getItem('ecal_readings_' + currentUser.name)) || [];
             const historyList = document.getElementById('historyList');
             historyList.innerHTML = '';
 
             if (readings.length >= 2) {
-                // Get the very first reading
                 const firstReading = readings[0].value;
-                // Get the latest reading
                 const latestReading = readings[readings.length - 1].value;
                 
-                // Cumulative Total Units consumed since the beginning
+                // Cumulative Total
                 const cumulativeTotalUnits = latestReading - firstReading;
                 
                 if (cumulativeTotalUnits >= 0) {
@@ -559,36 +547,35 @@
                     let timePart = readings[i].date.split(' | ')[1];
 
                     if(i === 0) {
-                        // First entry style
                         historyHTML += `
                             <div class="history-item history-initial">
                                 <div>
-                                    <div class="h-date"><i class="fa-solid fa-flag-checkered" style="color:#eab308; margin-right:8px;"></i> ${datePart}</div>
+                                    <div class="h-date"><i class="fa-solid fa-flag-checkered" style="color:var(--accent-gold); margin-right:5px;"></i> ${datePart}</div>
                                     <div class="h-time"><i class="fa-regular fa-clock"></i> ${timePart}</div>
                                 </div>
                                 <div style="text-align: right;">
-                                    <div class="h-units" style="color:#eab308; font-size: 15px;">INITIAL SYNC</div>
-                                    <div class="h-cost" style="color:#94a3b8; font-size: 14px;">METER: ${readings[0].value}</div>
+                                    <div class="h-units" style="color:var(--accent-gold); font-size: 15px;">ආරම්භක කියවීම</div>
+                                    <div class="h-cost" style="color:#6b7280; font-size: 14px;">මීටරය: ${readings[0].value}</div>
                                 </div>
                             </div>
                         `;
                     } else {
-                        // Delta (Units added this session)
+                        // Delta (Units added)
                         const addedUnits = (readings[i].value - readings[i-1].value).toFixed(2);
                         
-                        // Cumulative Units up to this specific entry
+                        // Cumulative up to this point
                         const totalUnitsSoFar = (readings[i].value - firstReading).toFixed(2);
                         const costSoFar = calculateCumulativeBill(totalUnitsSoFar).toFixed(2);
-                        
+
                         historyHTML += `
                             <div class="history-item">
                                 <div>
-                                    <div class="h-date"><i class="fa-solid fa-network-wired" style="color:var(--neon-cyan); margin-right:8px;"></i> ${datePart}</div>
+                                    <div class="h-date"><i class="fa-regular fa-calendar-check" style="color:var(--primary-light); margin-right:5px;"></i> ${datePart}</div>
                                     <div class="h-time"><i class="fa-regular fa-clock"></i> ${timePart}</div>
-                                    <div class="h-added">+ ${addedUnits} Units Added</div>
+                                    <div class="h-added">+ ${addedUnits} ඒකක</div>
                                 </div>
                                 <div style="text-align: right;">
-                                    <div class="h-units" style="font-size: 14px; color:#cbd5e1;">Total: <span style="color:var(--neon-cyan); font-size:18px;">${totalUnitsSoFar}</span></div>
+                                    <div class="h-units" style="font-size: 14px; color:#6b7280;">මුළු: <span style="color:var(--primary-maroon); font-size:18px;">${totalUnitsSoFar}</span></div>
                                     <div class="h-cost">රු. ${costSoFar}</div>
                                 </div>
                             </div>
@@ -607,24 +594,22 @@
                 historyList.innerHTML = `
                     <div class="history-item history-initial">
                         <div>
-                            <div class="h-date"><i class="fa-solid fa-flag-checkered" style="color:#eab308; margin-right:8px;"></i> ${datePart}</div>
+                            <div class="h-date"><i class="fa-solid fa-flag-checkered" style="color:var(--accent-gold); margin-right:5px;"></i> ${datePart}</div>
                             <div class="h-time"><i class="fa-regular fa-clock"></i> ${timePart}</div>
                         </div>
                         <div style="text-align: right;">
-                            <div class="h-units" style="color:#eab308; font-size: 15px;">INITIAL SYNC</div>
-                            <div class="h-cost" style="color:#94a3b8; font-size: 14px;">METER: ${readings[0].value}</div>
+                            <div class="h-units" style="color:var(--accent-gold); font-size: 15px;">ආරම්භක කියවීම</div>
+                            <div class="h-cost" style="color:#6b7280; font-size: 14px;">මීටරය: ${readings[0].value}</div>
                         </div>
                     </div>
                 `;
             } else {
-                historyList.innerHTML = '<div style="text-align:center; color:#64748b; padding:20px; font-family: monospace;">NO DATA LOGS FOUND</div>';
+                historyList.innerHTML = '<div style="text-align:center; color:#9ca3af; padding:20px; font-size: 14px;">තවමත් දත්ත ඇතුලත් කර නොමැත</div>';
             }
         }
 
-        // Calculate exact cumulative bill based on total units accumulated 
         function calculateCumulativeBill(totalUnits) {
             let bill = 0;
-
             if (totalUnits <= 30) {
                 bill = (totalUnits * 8.00) + 150.00;
             } else if (totalUnits <= 60) {
@@ -640,7 +625,7 @@
         }
 
         function resetAllData() {
-            if(confirm("WARNING! \n\nAre you sure you want to completely wipe out the system memory? This action cannot be undone.")) {
+            if(confirm("අවධානයයි! \n\nඔබට විශ්වාසද? ඔබගේ සියලුම දත්ත, ඉතිහාසය සහ ගිණුම සම්පූර්ණයෙන්ම මැකී යනු ඇත. මෙය නැවත ලබාගත නොහැක.")) {
                 localStorage.removeItem('ecal_name');
                 localStorage.removeItem('ecal_pin');
                 localStorage.removeItem('ecal_readings_' + currentUser.name);
