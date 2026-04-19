@@ -280,18 +280,28 @@
             <div class="login-right">
                 <div class="card" style="width: 100%; max-width: 450px; padding: 40px 35px; position: relative; z-index: 5;">
                     <h2 style="text-align: center; margin-bottom: 35px; color: var(--primary-maroon); font-size: 24px;">ආරක්ෂිතව ඇතුලත් වන්න</h2>
+                    
                     <div class="form-group" id="nameGroup">
                         <label>ඔබගේ නම</label>
                         <input type="text" id="userName" placeholder="Ex: Tharuk">
                     </div>
+                    
                     <div class="form-group">
                         <label>රහස් පින් අංකය (PIN)</label>
                         <input type="password" id="userPin" placeholder="අංක 4ක පින් එකක්">
                     </div>
+                    
                     <button class="btn-primary" onclick="handleLogin()" style="margin-top: 35px;">
                         ඇතුලත් වෙන්න <i class="fa-solid fa-fingerprint" style="margin-left: 5px;"></i>
                     </button>
+                    
                     <div id="loginError" style="color: #ef4444; font-size: 14px; text-align: center; margin-top: 15px; display: none; font-weight: 600;">පින් අංකය වැරදියි!</div>
+
+                    <div style="text-align: center; margin-top: 25px;">
+                        <a href="#" onclick="hardReset()" style="color: #ef4444; font-size: 13px; font-weight: 500; text-decoration: underline; transition: 0.3s;">
+                            ගිණුමේ දත්ත මකා අලුතින් පටන් ගන්න (Reset)
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -390,7 +400,6 @@
                         </div>
                         <div class="accordion-content">
                             <div class="content-inner" style="padding-top: 10px;">
-                                
                                 <div style="font-size: 13px; font-weight: 600; color: var(--primary-maroon); margin-bottom: 5px; background: rgba(217, 119, 6, 0.1); padding: 5px 10px; border-radius: 4px;">
                                     යාවත්කාලීන කළ නව ගාස්තු සහ වැඩීවීම:
                                 </div>
@@ -399,7 +408,6 @@
                                 <div class="tariff-item"><strong>61-90</strong> : රු. 1820 (ස්ථාවර ගාස්තුව රු. 100)</div>
                                 <div class="tariff-item"><strong>91-120</strong> : රු. 3280 (ස්ථාවර ගාස්තුව රු. 240)</div>
                                 <div class="tariff-item"><strong>121-150</strong> : රු. 5100 (ස්ථාවර ගාස්තුව රු. 480)</div>
-                                
                             </div>
                         </div>
                     </div>
@@ -427,3 +435,274 @@
         </div>
 
     </div>
+
+    <script>
+        let currentUser = { name: '', pin: '' };
+        let liveClockInterval;
+
+        window.onload = function() {
+            const savedName = localStorage.getItem('ecal_name');
+            const savedPin = localStorage.getItem('ecal_pin');
+            if (savedName && savedPin) {
+                document.getElementById('nameGroup').style.display = 'none';
+            }
+        }
+
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes().toString().padStart(2, '0');
+            let seconds = now.getSeconds().toString().padStart(2, '0');
+            let ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12; hours = hours ? hours : 12; 
+            hours = hours.toString().padStart(2, '0');
+            document.getElementById('liveClock').innerHTML = `${hours}:${minutes}:${seconds} <span class="ampm">${ampm}</span>`;
+        }
+
+        function toggleAccordion(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('open');
+        }
+
+        function showLoading(duration) {
+            return new Promise(resolve => {
+                const overlay = document.getElementById('loadingOverlay');
+                overlay.style.display = 'flex';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    resolve();
+                }, duration);
+            });
+        }
+
+        async function handleLogin() {
+            const nameInput = document.getElementById('userName').value.trim();
+            const pinInput = document.getElementById('userPin').value.trim();
+            const savedName = localStorage.getItem('ecal_name');
+            const savedPin = localStorage.getItem('ecal_pin');
+            const errorDiv = document.getElementById('loginError');
+
+            if (!pinInput) {
+                errorDiv.innerText = "කරුණාකර පින් අංකය ඇතුලත් කරන්න.";
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            if (!savedName) {
+                if (!nameInput) {
+                    errorDiv.innerText = "කරුණාකර ඔබගේ නම ඇතුලත් කරන්න.";
+                    errorDiv.style.display = 'block';
+                    return;
+                }
+                await showLoading(1500); 
+                localStorage.setItem('ecal_name', nameInput);
+                localStorage.setItem('ecal_pin', pinInput);
+                showDashboard(nameInput);
+            } else {
+                if (pinInput === savedPin) {
+                    await showLoading(1000);
+                    showDashboard(savedName);
+                } else {
+                    errorDiv.innerText = "පින් අංකය වැරදියි!";
+                    errorDiv.style.display = 'block';
+                }
+            }
+        }
+
+        function showDashboard(name) {
+            currentUser.name = name;
+            document.getElementById('loginView').classList.remove('active');
+            document.getElementById('dashboardView').classList.add('active');
+            document.getElementById('dashGreeting').innerText = `ආයුබෝවන්, ${name}!`;
+            liveClockInterval = setInterval(updateClock, 1000);
+            updateClock();
+            updateDashboardData();
+        }
+
+        function showPopup(timeString) {
+            document.getElementById('popupTimeText').innerText = timeString;
+            document.getElementById('customPopup').classList.add('show');
+        }
+
+        function closePopup() {
+            document.getElementById('customPopup').classList.remove('show');
+        }
+
+        async function handleMeterReading() {
+            const readingInput = parseFloat(document.getElementById('meterReadingInput').value);
+            if (!readingInput || isNaN(readingInput)) {
+                alert("කරුණාකර නිවැරදි අගයක් ඇතුලත් කරන්න.");
+                return;
+            }
+
+            const now = new Date();
+            const timestamp = now.toISOString();
+            
+            let hrs = now.getHours();
+            let mins = now.getMinutes().toString().padStart(2, '0');
+            let ampm = hrs >= 12 ? 'PM' : 'AM';
+            hrs = hrs % 12; hrs = hrs ? hrs : 12;
+            const timeStr = `${hrs}:${mins} ${ampm}`;
+            
+            const dateStr = `${now.getFullYear()}.${(now.getMonth()+1).toString().padStart(2,'0')}.${now.getDate().toString().padStart(2,'0')} | ${timeStr}`;
+            
+            let readings = JSON.parse(localStorage.getItem('ecal_readings_' + currentUser.name)) || [];
+
+            if (readings.length > 0) {
+                const lastVal = readings[readings.length - 1].value;
+                if (readingInput < lastVal) {
+                    alert(`නව අගය පෙර සටහන් කළ අගයට (${lastVal}) වඩා වැඩි හෝ සමාන විය යුතුය!`);
+                    return;
+                }
+            }
+
+            await showLoading(1200); 
+
+            readings.push({ timestamp: timestamp, date: dateStr, value: readingInput });
+            localStorage.setItem('ecal_readings_' + currentUser.name, JSON.stringify(readings));
+            
+            document.getElementById('meterReadingInput').value = '';
+            updateDashboardData();
+            
+            document.getElementById('accHistory').classList.add('open');
+            window.scrollTo({ top: 300, behavior: 'smooth' });
+
+            showPopup(timeStr);
+        }
+
+        function updateDashboardData() {
+            const readings = JSON.parse(localStorage.getItem('ecal_readings_' + currentUser.name)) || [];
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '';
+
+            if (readings.length >= 2) {
+                const firstReading = readings[0].value;
+                const latestReading = readings[readings.length - 1].value;
+                
+                const cumulativeTotalUnits = latestReading - firstReading;
+                
+                if (cumulativeTotalUnits >= 0) {
+                    const cumulativeTotalCost = calculateCumulativeBill(cumulativeTotalUnits);
+                    document.getElementById('displayUnits').innerText = cumulativeTotalUnits.toFixed(2);
+                    document.getElementById('displayCost').innerText = cumulativeTotalCost.toFixed(2);
+                }
+
+                let historyHTML = '';
+                for (let i = readings.length - 1; i >= 0; i--) {
+                    let datePart = readings[i].date.split(' | ')[0];
+                    let timePart = readings[i].date.split(' | ')[1];
+                    const currentReading = readings[i].value;
+
+                    if(i === 0) {
+                        historyHTML += `
+                            <div class="history-item history-initial">
+                                <div>
+                                    <div class="h-date"><i class="fa-solid fa-flag-checkered" style="color:var(--accent-gold); margin-right:5px;"></i> ${datePart}</div>
+                                    <div class="h-time"><i class="fa-regular fa-clock"></i> ${timePart}</div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div class="h-reading">මීටරය: <span>${currentReading}</span></div>
+                                    <div class="h-units" style="color:var(--accent-gold); font-size: 14px; margin-top:5px;">ආරම්භක කියවීම</div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        const addedUnits = (readings[i].value - readings[i-1].value).toFixed(2);
+                        const totalUnitsSoFar = (readings[i].value - firstReading).toFixed(2);
+                        const costSoFar = calculateCumulativeBill(totalUnitsSoFar).toFixed(2);
+
+                        historyHTML += `
+                            <div class="history-item">
+                                <div>
+                                    <div class="h-date"><i class="fa-regular fa-calendar-check" style="color:var(--primary-light); margin-right:5px;"></i> ${datePart}</div>
+                                    <div class="h-time"><i class="fa-regular fa-clock"></i> ${timePart}</div>
+                                    <div class="h-reading">මීටරය: <span>${currentReading}</span></div>
+                                    <div class="h-added">+ ${addedUnits} ඒකක</div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: 14px; color:#6b7280; font-weight: 500;">එදිනට මුළු:</div>
+                                    <div class="h-units">${totalUnitsSoFar} ඒකක</div>
+                                    <div class="h-cost">රු. ${costSoFar}</div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+                historyList.innerHTML = historyHTML;
+
+            } else if (readings.length === 1) {
+                document.getElementById('displayUnits').innerText = "0.00";
+                document.getElementById('displayCost').innerText = "0.00";
+                
+                let datePart = readings[0].date.split(' | ')[0];
+                let timePart = readings[0].date.split(' | ')[1];
+                const currentReading = readings[0].value;
+                
+                historyList.innerHTML = `
+                    <div class="history-item history-initial">
+                        <div>
+                            <div class="h-date"><i class="fa-solid fa-flag-checkered" style="color:var(--accent-gold); margin-right:5px;"></i> ${datePart}</div>
+                            <div class="h-time"><i class="fa-regular fa-clock"></i> ${timePart}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="h-reading">මීටරය: <span>${currentReading}</span></div>
+                            <div class="h-units" style="color:var(--accent-gold); font-size: 14px; margin-top:5px;">ආරම්භක කියවීම</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                historyList.innerHTML = '<div style="text-align:center; color:#9ca3af; padding:20px; font-size: 14px;">තවමත් දත්ත ඇතුලත් කර නොමැත</div>';
+            }
+        }
+
+        // Updated Custom Calculation Logic 
+        function calculateCumulativeBill(totalUnits) {
+            let bill = 0;
+            if (totalUnits <= 0) return 0;
+            
+            if (totalUnits <= 30) {
+                bill = (totalUnits / 30) * 230;
+            } else if (totalUnits <= 60) {
+                bill = 230 + ((totalUnits - 30) / 30) * (630 - 230);
+            } else if (totalUnits <= 90) {
+                bill = 630 + ((totalUnits - 60) / 30) * (1820 - 630);
+            } else if (totalUnits <= 120) {
+                bill = 1820 + ((totalUnits - 90) / 30) * (3280 - 1820);
+            } else if (totalUnits <= 150) {
+                bill = 3280 + ((totalUnits - 120) / 30) * (5100 - 3280);
+            } else {
+                let extraRate = (5100 - 3280) / 30; 
+                bill = 5100 + ((totalUnits - 150) * extraRate);
+            }
+            return bill; 
+        }
+
+        // --- NEW RESET FUNCTION TO CLEAR ALL LOCALSTORAGE ---
+        function hardReset() {
+            if(confirm("අවධානයයි! \n\nඔබගේ පරණ PIN අංකය සහ දත්ත සියල්ලම මැකී යනු ඇත. ඔබට අලුතින්ම ගිණුමක් ආරම්භ කිරීමට අවශ්‍යද?")) {
+                localStorage.clear();
+                location.reload(); 
+            }
+        }
+
+        function resetAllData() {
+            if(confirm("අවධානයයි! \n\nඔබට විශ්වාසද? ඔබගේ සියලුම දත්ත, ඉතිහාසය සහ ගිණුම සම්පූර්ණයෙන්ම මැකී යනු ඇත. මෙය නැවත ලබාගත නොහැක.")) {
+                localStorage.clear(); // Updated to clear everything
+                location.reload(); 
+            }
+        }
+
+        function logout() {
+            clearInterval(liveClockInterval); 
+            document.getElementById('dashboardView').classList.remove('active');
+            document.getElementById('loginView').classList.add('active');
+            document.getElementById('accHistory').classList.remove('open');
+            document.getElementById('accTariff').classList.remove('open');
+            if(localStorage.getItem('ecal_pin')) {
+                document.getElementById('nameGroup').style.display = 'none';
+            }
+            document.getElementById('userPin').value = '';
+        }
+    </script>
+</body>
+</html>
