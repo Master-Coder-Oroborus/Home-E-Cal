@@ -3,127 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home E-Cal | Premium Tracker</title>
+    <title>Home E-Cal | Premium Electricity Tracker</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
     <style>
-        /* Premium Maroon & Cream Theme */
+        /* Premium Maroon & Cream Full-Screen Theme */
         :root {
             --bg-cream: #fdfbf7;
-            --card-cream: #fdf6e9;
+            --card-cream: #fefce8;
             --primary-maroon: #7f1d1d; /* Deep Red/Maroon */
             --primary-light: #991b1b;
             --accent-gold: #d97706; /* Golden Yellow */
             --text-dark: #27272a;
             --text-light: #fefce8;
             --border-color: #f3e8d6;
+            --danger-color: #ef4444;
         }
 
-        body {
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
             font-family: 'Poppins', 'Noto Sans Sinhala', sans-serif;
             background-color: var(--bg-cream);
             color: var(--text-dark);
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-            background-image: radial-gradient(circle at 50% 0%, #faecd4 0%, transparent 70%);
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% -20%, #faecd4 0%, transparent 80%);
         }
 
         .app-container {
             background-color: #ffffff;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(127, 29, 29, 0.15);
-            max-width: 450px; /* Mobile app width */
             width: 100%;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
+            max-width: 600px; /* Tablet/Mobile optimized wide view */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 50px rgba(127, 29, 29, 0.1);
+            position: relative;
         }
 
         /* Top Header Area */
         .app-header {
             background: linear-gradient(135deg, var(--primary-maroon), var(--primary-light));
-            padding: 30px 20px 40px 20px;
+            padding: 20px 20px 40px 20px;
             text-align: center;
             color: var(--text-light);
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            box-shadow: 0 10px 30px rgba(127, 29, 29, 0.2);
             position: relative;
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
-            box-shadow: 0 10px 20px rgba(127, 29, 29, 0.2);
         }
 
         .header-top {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
         }
 
         .app-title {
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 22px;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             color: var(--accent-gold);
+            letter-spacing: 1px;
         }
 
-        /* Animated Glowing Bulb */
-        .glowing-bulb {
-            font-size: 45px;
-            color: var(--accent-gold);
-            margin-bottom: 10px;
-            animation: pulseGlow 2s infinite alternate;
-        }
-
-        @keyframes pulseGlow {
-            0% { text-shadow: 0 0 10px rgba(217, 119, 6, 0.4); transform: scale(1); }
-            100% { text-shadow: 0 0 25px rgba(217, 119, 6, 0.9), 0 0 40px rgba(217, 119, 6, 0.6); transform: scale(1.05); }
+        .lottie-container {
+            display: flex;
+            justify-content: center;
+            margin: -10px 0;
         }
 
         .greeting {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
-            margin: 10px 0 5px 0;
+            margin: 5px 0;
         }
 
         .clock-display {
-            font-size: 14px;
+            font-size: 15px;
             color: #fcd34d;
             font-family: monospace;
-            background: rgba(0,0,0,0.2);
-            padding: 4px 12px;
-            border-radius: 20px;
+            background: rgba(0,0,0,0.25);
+            padding: 6px 15px;
+            border-radius: 25px;
             display: inline-block;
+            margin-top: 5px;
+            letter-spacing: 2px;
         }
 
         .app-body {
-            padding: 20px;
+            padding: 20px 25px;
             margin-top: -30px; /* Overlap effect */
             position: relative;
             z-index: 2;
+            flex-grow: 1;
         }
 
         /* Summary Card (Maroon) */
         .summary-card {
             background: linear-gradient(135deg, var(--primary-maroon), #651616);
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 20px;
+            padding: 25px;
             color: white;
-            box-shadow: 0 10px 25px rgba(127, 29, 29, 0.3);
+            box-shadow: 0 15px 35px rgba(127, 29, 29, 0.25);
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         .summary-title {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             color: #fef3c7;
         }
 
@@ -137,188 +138,217 @@
             content: '';
             position: absolute;
             left: 50%;
-            top: 10%;
-            bottom: 10%;
+            top: 5%;
+            bottom: 5%;
             width: 1px;
-            background-color: rgba(255,255,255,0.2);
+            background-color: rgba(255,255,255,0.15);
         }
 
-        .summary-col {
-            flex: 1;
-        }
-
-        .summary-label {
-            font-size: 12px;
-            color: #d1d5db;
-            margin-bottom: 5px;
-        }
-
-        .summary-value {
-            font-size: 28px;
-            font-weight: 700;
-        }
-
-        .currency {
-            font-size: 16px;
-            font-weight: 400;
-        }
+        .summary-col { flex: 1; }
+        .summary-label { font-size: 13px; color: #d1d5db; margin-bottom: 5px; }
+        .summary-value { font-size: 34px; font-weight: 700; }
+        .currency { font-size: 18px; font-weight: 400; }
 
         /* Input Card (Cream) */
         .input-card {
             background-color: var(--card-cream);
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 20px;
+            padding: 25px;
             border: 1px solid var(--border-color);
             margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
         }
 
         .input-title {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             color: var(--primary-maroon);
+            text-align: center;
         }
 
-        .form-group { margin-bottom: 15px; }
-
-        .input-wrapper { position: relative; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { font-size: 14px; font-weight: 600; color: var(--text-dark); display: block; margin-bottom: 8px;}
 
         input {
             width: 100%;
-            padding: 14px 15px;
+            padding: 16px 15px;
             background-color: #ffffff;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
             font-family: inherit;
-            font-size: 16px;
+            font-size: 18px;
             color: var(--text-dark);
             outline: none;
             box-sizing: border-box;
             transition: all 0.3s;
+            text-align: center;
         }
 
         input:focus {
             border-color: var(--primary-maroon);
-            box-shadow: 0 0 0 3px rgba(127, 29, 29, 0.1);
+            box-shadow: 0 0 0 4px rgba(127, 29, 29, 0.1);
         }
 
         button.btn-primary {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background-color: var(--primary-maroon);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 15px;
+            border-radius: 12px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(127, 29, 29, 0.2);
         }
 
-        button.btn-primary:hover { background-color: var(--primary-light); }
-        button.btn-primary:active { transform: translateY(2px); }
+        button.btn-primary:hover { background-color: var(--primary-light); transform: translateY(-2px); }
+        button.btn-primary:active { transform: translateY(1px); }
+
+        button.btn-danger {
+            width: 100%;
+            padding: 14px;
+            background-color: transparent;
+            color: var(--danger-color);
+            border: 2px solid var(--danger-color);
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 30px;
+        }
+        button.btn-danger:hover { background-color: var(--danger-color); color: white; }
 
         /* Accordion / Dropdown Styles */
         .accordion {
             background-color: var(--card-cream);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 16px;
             margin-bottom: 15px;
             overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
         }
 
         .accordion-header {
-            padding: 15px 20px;
+            padding: 18px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
             font-weight: 600;
+            font-size: 14px;
             color: var(--text-dark);
             background-color: #fff;
             transition: background 0.3s;
         }
 
         .accordion-header:hover { background-color: #fafaf9; }
-        
-        .accordion-header i { transition: transform 0.3s; }
-        .accordion.open .accordion-header i.fa-chevron-down { transform: rotate(180deg); }
+        .accordion-header i.fa-chevron-down { transition: transform 0.4s ease; }
+        .accordion.open .accordion-header i.fa-chevron-down { transform: rotate(180deg); color: var(--primary-maroon); }
 
         .accordion-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease-out;
+            transition: max-height 0.5s ease-out;
             background-color: var(--card-cream);
         }
         
-        .accordion.open .accordion-content {
-            max-height: 500px; /* Arbitrary large number */
-        }
+        .accordion.open .accordion-content { max-height: 800px; }
+        .content-inner { padding: 15px 20px; font-size: 14px; }
 
-        .content-inner {
-            padding: 15px 20px;
-            font-size: 13px;
-        }
-
-        /* History List styling inside accordion */
         .history-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 12px 0;
             border-bottom: 1px solid rgba(127, 29, 29, 0.1);
             align-items: center;
         }
         .history-item:last-child { border-bottom: none; }
-        .h-date { font-weight: 500; }
+        .h-date { font-weight: 500; font-size: 13px; }
         .h-units { font-weight: 600; color: var(--primary-maroon); }
-        .h-cost { font-weight: 600; color: #047857; }
+        .h-cost { font-weight: 700; color: #047857; }
 
-        /* Tariffs styling inside accordion */
-        .tariff-item {
-            padding: 8px 0;
-            border-bottom: 1px dashed rgba(0,0,0,0.1);
-        }
+        .tariff-item { padding: 10px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); font-size: 13px;}
         .tariff-item:last-child { border-bottom: none; }
 
-        /* Login specific */
-        #loginView, #dashboardView { display: none; }
-        #loginView.active, #dashboardView.active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .logout-link {
+        /* Footer Credits */
+        .app-footer {
             text-align: center;
-            margin-top: 20px;
-            font-size: 13px;
-            color: var(--primary-maroon);
-            cursor: pointer;
-            font-weight: 600;
-            text-decoration: underline;
+            padding: 20px;
+            margin-top: auto; /* Pushes to bottom */
+            border-top: 1px solid #f3f4f6;
+            background-color: #ffffff;
         }
+
+        .creator-text {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .fb-link {
+            display: inline-block;
+            margin-top: 8px;
+            color: #1877F2;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: opacity 0.3s;
+        }
+        .fb-link:hover { opacity: 0.8; }
+
+        /* Full Screen Loading Overlay */
+        #loadingOverlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(255,255,255,0.95);
+            z-index: 100;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border-radius: inherit;
+        }
+
+        /* Views */
+        #loginView, #dashboardView { display: none; }
+        #loginView.active, #dashboardView.active { display: block; animation: fadeIn 0.6s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
 
     <div class="app-container">
+
+        <div id="loadingOverlay">
+            <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_t9gkho62.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
+            <h3 style="color: var(--primary-maroon); margin-top: -10px;">ගණනය කරමින් පවතී...</h3>
+        </div>
+
         <div id="dashboardView">
             <div class="app-header">
                 <div class="header-top">
-                    <div class="app-title"><i class="fa-solid fa-bolt"></i> Home E-Cal</div>
-                    <i class="fa-regular fa-bell" style="font-size: 20px; cursor: pointer;"></i>
+                    <div class="app-title">Home E-Cal</div>
                 </div>
-                <i class="fa-solid fa-lightbulb glowing-bulb"></i>
-                <div class="greeting" id="dashGreeting">සාදරයෙන් පිළිගනිමු, පරිශීලකයා!</div>
-                <div style="font-size: 12px; margin-bottom: 8px; opacity: 0.9;" id="lastUpdatedText">අවසන් පූරණය වීම: -</div>
+                <div class="lottie-container">
+                    <lottie-player src="https://lottie.host/81bd3cc8-5e26-47b7-bd20-7212b23a50ed/zWlA3M2L3y.json" background="transparent" speed="1" style="width: 180px; height: 180px;" loop autoplay></lottie-player>
+                </div>
+                <div class="greeting" id="dashGreeting">ආයුබෝවන්, පරිශීලකයා!</div>
+                <div style="font-size: 13px; margin-bottom: 8px; opacity: 0.9; font-weight: 300;" id="lastUpdatedText">අවසන් පූරණය වීම: -</div>
                 <div class="clock-display"><i class="fa-regular fa-clock"></i> <span id="liveClock">00:00:00</span></div>
             </div>
 
             <div class="app-body">
                 <div class="summary-card">
-                    <div class="summary-title">ගතවූ පැය 24 සඳහා භාවිත සාරාංශය</div>
+                    <div class="summary-title"><i class="fa-solid fa-chart-line"></i> ගතවූ පැය 24 සඳහා භාවිත සාරාංශය</div>
                     <div class="summary-grid">
                         <div class="summary-col">
                             <div class="summary-label">දෛනික විදුලි ඒකක</div>
                             <div class="summary-value" id="displayUnits">0.00</div>
-                            <div class="summary-label" style="font-size:10px;">ඒකක</div>
+                            <div class="summary-label" style="font-size:11px; opacity:0.8;">ඒකක (Units)</div>
                         </div>
                         <div class="summary-col">
                             <div class="summary-label">දළ දෛනික වියදම</div>
@@ -328,18 +358,18 @@
                 </div>
 
                 <div class="input-card">
-                    <div class="input-title"><i class="fa-solid fa-pen-to-square"></i> නව මීටර කියවීම ඇතුළත් කරන්න</div>
+                    <div class="input-title">නව මීටර කියවීම ඇතුළත් කරන්න</div>
                     <div class="form-group">
-                        <input type="number" id="meterReadingInput" placeholder="e.g., 1012.5" step="0.1">
+                        <input type="number" id="meterReadingInput" placeholder="Ex: 1012.5" step="0.1">
                     </div>
                     <button class="btn-primary" onclick="handleMeterReading()">
-                        ගණනය කරන්න <i class="fa-solid fa-arrow-right"></i>
+                        ගණනය කරන්න <i class="fa-solid fa-bolt" style="margin-left: 5px;"></i>
                     </button>
                 </div>
 
                 <div class="accordion" id="accHistory">
                     <div class="accordion-header" onclick="toggleAccordion('accHistory')">
-                        <span><i class="fa-solid fa-clock-rotate-left" style="color: var(--primary-maroon); margin-right: 8px;"></i> පෙර දෛනික වාර්තා</span>
+                        <span><i class="fa-solid fa-clock-rotate-left" style="color: var(--primary-maroon); margin-right: 8px;"></i> පෙර දෛනික වාර්තා (History)</span>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
                     <div class="accordion-content">
@@ -351,7 +381,7 @@
 
                 <div class="accordion" id="accTariff">
                     <div class="accordion-header" onclick="toggleAccordion('accTariff')">
-                        <span><i class="fa-solid fa-file-invoice-dollar" style="color: var(--primary-maroon); margin-right: 8px;"></i> විදුලි ගාස්තු කාණ්ඩ (2026-Apr)</span>
+                        <span><i class="fa-solid fa-file-invoice-dollar" style="color: var(--primary-maroon); margin-right: 8px;"></i> විදුලි ගාස්තු කාණ්ඩ (2026-Apr-01 සිට)</span>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
                     <div class="accordion-content">
@@ -365,19 +395,24 @@
                     </div>
                 </div>
 
-                <div class="logout-link" onclick="logout()">ගිණුමෙන් ඉවත් වන්න</div>
+                <button class="btn-danger" onclick="resetAllData()">
+                    <i class="fa-solid fa-trash-can"></i> සියළුම දත්ත මකා දමන්න
+                </button>
             </div>
         </div>
 
         <div id="loginView" class="active">
-            <div class="app-header" style="border-radius: 0 0 50px 50px; padding-bottom: 60px;">
-                <i class="fa-solid fa-lightbulb glowing-bulb" style="font-size: 60px;"></i>
-                <div class="greeting">Home E-Cal</div>
-                <p style="opacity: 0.8; font-size: 14px;">ආරක්ෂිතව ඇතුලත් වන්න</p>
+            <div class="app-header" style="border-radius: 0 0 60px 60px; padding-bottom: 70px;">
+                <div class="lottie-container">
+                    <lottie-player src="https://lottie.host/81bd3cc8-5e26-47b7-bd20-7212b23a50ed/zWlA3M2L3y.json" background="transparent" speed="1" style="width: 200px; height: 200px;" loop autoplay></lottie-player>
+                </div>
+                <div class="greeting" style="font-size: 32px; margin-top: -20px;">Home E-Cal</div>
+                <p style="opacity: 0.8; font-size: 15px; font-weight: 300;">ගෘහස්ථ විදුලි පරිභෝජන කළමනාකරු</p>
             </div>
             
-            <div class="app-body" style="margin-top: -40px;">
-                <div class="input-card" style="box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+            <div class="app-body" style="margin-top: -50px; flex-grow: 0;">
+                <div class="input-card" style="box-shadow: 0 15px 35px rgba(127,29,29,0.1); padding: 35px 25px;">
+                    <h3 style="text-align: center; margin-top: 0; color: var(--primary-maroon); font-weight: 700;">ආරක්ෂිතව ඇතුලත් වන්න</h3>
                     <div class="form-group" id="nameGroup">
                         <label>ඔබගේ නම</label>
                         <input type="text" id="userName" placeholder="Ex: Tharuk">
@@ -386,13 +421,21 @@
                         <label>රහස් පින් අංකය (PIN)</label>
                         <input type="password" id="userPin" placeholder="අංක 4ක පින් එකක්">
                     </div>
-                    <button class="btn-primary" onclick="handleLogin()" style="margin-top: 20px;">
-                        ඇතුලත් වෙන්න
+                    <button class="btn-primary" onclick="handleLogin()" style="margin-top: 25px; padding: 18px; font-size: 18px;">
+                        ඇතුලත් වෙන්න <i class="fa-solid fa-arrow-right-to-bracket" style="margin-left: 5px;"></i>
                     </button>
-                    <div id="loginError" style="color: #ef4444; font-size: 13px; text-align: center; margin-top: 15px; display: none;">පින් අංකය වැරදියි!</div>
+                    <div id="loginError" style="color: #ef4444; font-size: 14px; text-align: center; margin-top: 15px; display: none; font-weight: 600;">පින් අංකය වැරදියි!</div>
                 </div>
             </div>
         </div>
+
+        <div class="app-footer">
+            <div class="creator-text">සැකසුම : තරුක් බංඩාර එදිරිසූරිය</div>
+            <a href="https://www.facebook.com/tharukedirisooriya" target="_blank" class="fb-link">
+                <i class="fa-brands fa-facebook"></i> www.facebook.com/tharukedirisooriya
+            </a>
+        </div>
+
     </div>
 
     <script>
@@ -407,7 +450,7 @@
             }
         }
 
-        // Animated Clock
+        // Live Animated Clock
         function updateClock() {
             const now = new Date();
             const hours = now.getHours().toString().padStart(2, '0');
@@ -416,13 +459,26 @@
             document.getElementById('liveClock').innerText = `${hours}:${minutes}:${seconds}`;
         }
 
-        // Accordion Logic
+        // Accordion Toggle
         function toggleAccordion(id) {
             const el = document.getElementById(id);
             el.classList.toggle('open');
         }
 
-        function handleLogin() {
+        // Show/Hide Loading Overlay
+        function showLoading(duration) {
+            return new Promise(resolve => {
+                const overlay = document.getElementById('loadingOverlay');
+                overlay.style.display = 'flex';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    resolve();
+                }, duration);
+            });
+        }
+
+        // Login Logic
+        async function handleLogin() {
             const nameInput = document.getElementById('userName').value.trim();
             const pinInput = document.getElementById('userPin').value.trim();
             const savedName = localStorage.getItem('ecal_name');
@@ -441,11 +497,13 @@
                     errorDiv.style.display = 'block';
                     return;
                 }
+                await showLoading(1500); // Fake loading for premium feel
                 localStorage.setItem('ecal_name', nameInput);
                 localStorage.setItem('ecal_pin', pinInput);
                 showDashboard(nameInput);
             } else {
                 if (pinInput === savedPin) {
+                    await showLoading(1000);
                     showDashboard(savedName);
                 } else {
                     errorDiv.innerText = "පින් අංකය වැරදියි!";
@@ -459,8 +517,7 @@
             document.getElementById('loginView').classList.remove('active');
             document.getElementById('dashboardView').classList.add('active');
             
-            // Set Dynamic Greeting
-            document.getElementById('dashGreeting').innerText = `ආයුබෝවන් ${name}!`;
+            document.getElementById('dashGreeting').innerText = `ආයුබෝවන්, ${name}!`;
             
             liveClockInterval = setInterval(updateClock, 1000);
             updateClock();
@@ -468,7 +525,8 @@
             updateDashboardData();
         }
 
-        function handleMeterReading() {
+        // Save Reading
+        async function handleMeterReading() {
             const readingInput = parseFloat(document.getElementById('meterReadingInput').value);
             if (!readingInput || isNaN(readingInput)) {
                 alert("කරුණාකර නිවැරදි අගයක් ඇතුලත් කරන්න.");
@@ -477,7 +535,6 @@
 
             const now = new Date();
             const timestamp = now.toISOString();
-            // Format date specifically as requested: DD.MM.YYYY
             const dateStr = `${now.getDate().toString().padStart(2,'0')}.${(now.getMonth()+1).toString().padStart(2,'0')}.${now.getFullYear()}`;
             
             let readings = JSON.parse(localStorage.getItem('ecal_readings_' + currentUser.name)) || [];
@@ -486,11 +543,13 @@
                 const lastReadingDate = new Date(readings[readings.length - 1].timestamp);
                 const hrsDiff = (now - lastReadingDate) / (1000 * 60 * 60);
 
-                if (hrsDiff < 20) { // Slightly flexible 24h gap check (20 hours min)
+                if (hrsDiff < 20) { 
                     alert(`දෙවන කියවීම සඳහා කරුණාකර තව පැය ${ (24 - hrsDiff).toFixed(1) } ක් රැඳී සිටින්න.`);
                     return;
                 }
             }
+
+            await showLoading(2000); // Lottie animation duration
 
             readings.push({ timestamp: timestamp, date: dateStr, value: readingInput });
             localStorage.setItem('ecal_readings_' + currentUser.name, JSON.stringify(readings));
@@ -498,41 +557,37 @@
             document.getElementById('meterReadingInput').value = '';
             updateDashboardData();
             
-            // Automatically open history accordion after adding
             document.getElementById('accHistory').classList.add('open');
+            window.scrollTo({ top: 300, behavior: 'smooth' });
         }
 
+        // Update UI
         function updateDashboardData() {
             const readings = JSON.parse(localStorage.getItem('ecal_readings_' + currentUser.name)) || [];
             const historyList = document.getElementById('historyList');
             historyList.innerHTML = '';
 
             if (readings.length > 0) {
-                // Update Last Updated Date
                 document.getElementById('lastUpdatedText').innerText = `අවසන් පූරණය වීම: ${readings[readings.length-1].date}`;
             }
 
             if (readings.length >= 2) {
-                // We have enough data to calculate usage
                 const lastIdx = readings.length - 1;
                 const dailyUnits = readings[lastIdx].value - readings[lastIdx - 1].value;
                 
                 if (dailyUnits >= 0) {
                     const dailyCost = calculateDailyCost(dailyUnits);
-                    // Update Main Maroon Card
                     document.getElementById('displayUnits').innerText = dailyUnits.toFixed(2);
                     document.getElementById('displayCost').innerText = dailyCost.toFixed(2);
                 }
 
-                // Generate History Dropdown beautifully
-                // We show the usage between days
                 let historyHTML = '';
                 for (let i = readings.length - 1; i > 0; i--) {
                     const units = (readings[i].value - readings[i-1].value).toFixed(2);
                     const cost = calculateDailyCost(units).toFixed(2);
                     historyHTML += `
                         <div class="history-item">
-                            <span class="h-date">${readings[i].date}</span>
+                            <span class="h-date"><i class="fa-regular fa-calendar-check" style="color:var(--primary-light); margin-right:5px;"></i> ${readings[i].date}</span>
                             <span class="h-units">${units} ඒකක</span>
                             <span class="h-cost">රු. ${cost}</span>
                         </div>
@@ -541,21 +596,19 @@
                 historyList.innerHTML = historyHTML;
 
             } else if (readings.length === 1) {
-                // Only first reading entered
-                document.getElementById('displayUnits').innerText = "-";
-                document.getElementById('displayCost').innerText = "-";
+                document.getElementById('displayUnits').innerText = "0.00";
+                document.getElementById('displayCost').innerText = "0.00";
                 historyList.innerHTML = `
-                    <div style="text-align:center; padding:10px; color:var(--accent-gold);">
+                    <div style="text-align:center; padding:15px; color:var(--accent-gold); font-weight:600; background:rgba(217, 119, 6, 0.1); border-radius:10px;">
                         <i class="fa-solid fa-clock"></i> පළමු අගය (${readings[0].value}) සටහන් විය. හෙට දින දෙවන අගය ඇතුලත් කරන්න.
                     </div>
                 `;
             } else {
-                // No readings
-                historyList.innerHTML = '<div style="text-align:center; color:#9ca3af;">දත්ත නොමැත</div>';
+                historyList.innerHTML = '<div style="text-align:center; color:#9ca3af; padding:15px;">තවමත් දත්ත ඇතුලත් කර නොමැත</div>';
             }
         }
 
-        // Daily Cost Calculation (Tariff 2026)
+        // Daily Cost Calculation (Tariff 2026-Apr-01)
         function calculateDailyCost(dailyUnits) {
             const monthlyUnits = dailyUnits * 30;
             let monthlyBill = 0;
@@ -574,20 +627,17 @@
             return monthlyBill / 30; 
         }
 
-        function logout() {
-            clearInterval(liveClockInterval); 
-            document.getElementById('dashboardView').classList.remove('active');
-            document.getElementById('loginView').classList.add('active');
-            
-            // Close accordions
-            document.getElementById('accHistory').classList.remove('open');
-            document.getElementById('accTariff').classList.remove('open');
-
-            if(localStorage.getItem('ecal_pin')) {
-                document.getElementById('nameGroup').style.display = 'none';
+        // Master Reset 
+        function resetAllData() {
+            if(confirm("අවධානයයි! \n\nඔබට විශ්වාසද? ඔබගේ සියලුම දත්ත, ඉතිහාසය සහ ගිණුම සම්පූර්ණයෙන්ම මැකී යනු ඇත. මෙය නැවත ලබාගත නොහැක.")) {
+                localStorage.removeItem('ecal_name');
+                localStorage.removeItem('ecal_pin');
+                localStorage.removeItem('ecal_readings_' + currentUser.name);
+                alert("සියලුම දත්ත සාර්ථකව මකා දමන ලදී.");
+                location.reload(); // Refresh page
             }
-            document.getElementById('userPin').value = '';
         }
+
     </script>
 </body>
 </html>
