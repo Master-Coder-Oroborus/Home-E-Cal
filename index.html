@@ -16,7 +16,7 @@
             --primary-maroon: #7f1d1d;
             --primary-light: #991b1b;
             --accent-gold: #d97706;
-            --accent-glow: #e8d3b4; /* Custom elegant glowing color */
+            --accent-glow: #e8d3b4; 
             --text-dark: #27272a;
             --text-light: #fefce8;
             --danger-color: #ef4444;
@@ -44,12 +44,7 @@
         .bg-anim-item:nth-child(4) { left: 80%; animation-duration: 22s; animation-delay: 8s; font-size: 80px; }
         .bg-anim-item:nth-child(5) { left: 5%; animation-duration: 30s; animation-delay: 12s; font-size: 100px; }
         
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
-        }
+        @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
 
         /* --- Views Container --- */
         .view-container { display: none; width: 100%; min-height: 100vh; flex-direction: column; position: relative; z-index: 2; }
@@ -103,14 +98,7 @@
         .house-bulb-anim { position: relative; width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; }
         .house-bulb-anim .fa-house { font-size: 35px; color: rgba(255, 255, 255, 0.1); position: absolute; }
         .house-bulb-anim .fa-lightbulb { font-size: 16px; color: var(--accent-glow); position: absolute; top: 15px; animation: bulbFlicker 3s infinite; }
-        
-        @keyframes bulbFlicker {
-            0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-gold); }
-            50% { opacity: 0.3; text-shadow: none; }
-            55% { opacity: 0.9; text-shadow: 0 0 10px var(--accent-glow); }
-            60% { opacity: 0.3; text-shadow: none; }
-            80% { opacity: 1; text-shadow: 0 0 15px var(--accent-gold); }
-        }
+        @keyframes bulbFlicker { 0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-gold); } 50% { opacity: 0.3; text-shadow: none; } 55% { opacity: 0.9; text-shadow: 0 0 10px var(--accent-glow); } 60% { opacity: 0.3; text-shadow: none; } 80% { opacity: 1; text-shadow: 0 0 15px var(--accent-gold); } }
 
         .header-center { display: flex; justify-content: center; gap: 25px; padding: 0 20px; }
         .app-icon { font-size: 24px; color: rgba(255, 255, 255, 0.4); animation: iconGlowWave 3s infinite; transition: 0.3s; }
@@ -120,11 +108,7 @@
         .app-icon:nth-child(4) { animation-delay: 0.6s; }
         .app-icon:nth-child(5) { animation-delay: 0.8s; }
         .app-icon:nth-child(6) { animation-delay: 1.0s; }
-        
-        @keyframes iconGlowWave {
-            0%, 100% { color: rgba(255, 255, 255, 0.4); transform: translateY(0); filter: drop-shadow(0 0 0 rgba(0,0,0,0)); }
-            50% { color: var(--accent-glow); transform: translateY(-4px); filter: drop-shadow(0 0 8px var(--accent-glow)); }
-        }
+        @keyframes iconGlowWave { 0%, 100% { color: rgba(255, 255, 255, 0.4); transform: translateY(0); filter: drop-shadow(0 0 0 rgba(0,0,0,0)); } 50% { color: var(--accent-glow); transform: translateY(-4px); filter: drop-shadow(0 0 8px var(--accent-glow)); } }
 
         .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; }
         .greeting { font-size: 16px; font-weight: 500; opacity: 0.9; margin-bottom: 5px; }
@@ -326,10 +310,10 @@
                 
                 <div class="column">
                     <div class="card card-maroon summary-card">
-                        <div class="card-title"><i class="fa-solid fa-microchip"></i> අවසන් ගණනය කිරීම් සාරාංශය</div>
+                        <div class="card-title"><i class="fa-solid fa-microchip"></i> අද දිනට භාවිත සාරාංශය</div>
                         <div class="summary-grid">
                             <div class="summary-col">
-                                <div class="summary-label">වැයවූ විදුලි ඒකක</div>
+                                <div class="summary-label">දෛනික විදුලි ඒකක</div>
                                 <div class="summary-value" id="displayUnits">0.00</div>
                                 <div class="summary-label" style="font-size:12px; margin-top:5px;">ඒකක (Units)</div>
                             </div>
@@ -355,7 +339,7 @@
                 <div class="column">
                     <div class="accordion" id="accHistory">
                         <div class="accordion-header" onclick="toggleAccordion('accHistory')">
-                            <span><i class="fa-solid fa-clock-rotate-left" style="color: var(--primary-maroon); margin-right: 10px;"></i> පෙර වාර්තා (History)</span>
+                            <span><i class="fa-solid fa-clock-rotate-left" style="color: var(--primary-maroon); margin-right: 10px;"></i> දෛනික වාර්තා (History)</span>
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <div class="accordion-content">
@@ -544,55 +528,12 @@
             const historyList = document.getElementById('historyList');
             historyList.innerHTML = '';
 
-            if (readings.length >= 2) {
-                const lastIdx = readings.length - 1;
-                const dailyUnits = readings[lastIdx].value - readings[lastIdx - 1].value;
-                
-                if (dailyUnits >= 0) {
-                    const dailyCost = calculateDailyCost(dailyUnits);
-                    document.getElementById('displayUnits').innerText = dailyUnits.toFixed(2);
-                    document.getElementById('displayCost').innerText = dailyCost.toFixed(2);
-                }
+            if (readings.length === 0) {
+                historyList.innerHTML = '<div style="text-align:center; color:#9ca3af; padding:20px; font-size: 14px;">තවමත් දත්ත ඇතුලත් කර නොමැත</div>';
+                return;
+            }
 
-                let historyHTML = '';
-                // Loop backwards to show newest first, including the 0th reading
-                for (let i = readings.length - 1; i >= 0; i--) {
-                    let datePart = readings[i].date.split(' | ')[0];
-                    let timePart = readings[i].date.split(' | ')[1];
-
-                    if(i === 0) {
-                        historyHTML += `
-                            <div class="history-item history-initial">
-                                <div>
-                                    <div class="h-date"><i class="fa-solid fa-flag-checkered" style="color:var(--accent-gold); margin-right:5px;"></i> ${datePart}</div>
-                                    <div class="h-time">${timePart}</div>
-                                </div>
-                                <div style="text-align: right;">
-                                    <div class="h-units" style="color:#854d0e;">ආරම්භක කියවීම</div>
-                                    <div class="h-cost" style="color:#6b7280;">${readings[0].value} ඒකක</div>
-                                </div>
-                            </div>
-                        `;
-                    } else {
-                        const units = (readings[i].value - readings[i-1].value).toFixed(2);
-                        const cost = calculateDailyCost(units).toFixed(2);
-                        historyHTML += `
-                            <div class="history-item">
-                                <div>
-                                    <div class="h-date"><i class="fa-regular fa-calendar-check" style="color:var(--accent-gold); margin-right:5px;"></i> ${datePart}</div>
-                                    <div class="h-time">${timePart}</div>
-                                </div>
-                                <div style="text-align: right;">
-                                    <div class="h-units">${units} ඒකක</div>
-                                    <div class="h-cost">රු. ${cost}</div>
-                                </div>
-                            </div>
-                        `;
-                    }
-                }
-                historyList.innerHTML = historyHTML;
-
-            } else if (readings.length === 1) {
+            if (readings.length === 1) {
                 document.getElementById('displayUnits').innerText = "0.00";
                 document.getElementById('displayCost').innerText = "0.00";
                 
@@ -611,9 +552,90 @@
                         </div>
                     </div>
                 `;
-            } else {
-                historyList.innerHTML = '<div style="text-align:center; color:#9ca3af; padding:20px; font-size: 14px;">තවමත් දත්ත ඇතුලත් කර නොමැත</div>';
+                return;
             }
+
+            // Group by dates
+            let groupedByDate = {};
+            readings.forEach(r => {
+                let date = r.date.split(' | ')[0];
+                if (!groupedByDate[date]) groupedByDate[date] = [];
+                groupedByDate[date].push(r);
+            });
+
+            let dates = Object.keys(groupedByDate).sort();
+            let historyHTML = '';
+            let latestDailyUnits = 0;
+
+            // Loop backwards for History Display
+            for (let i = dates.length - 1; i >= 0; i--) {
+                let currentDate = dates[i];
+                let currentGroup = groupedByDate[currentDate];
+                let lastReadingOfCurrentDate = currentGroup[currentGroup.length - 1];
+
+                let startReadingValue;
+                if (i > 0) {
+                    let prevDate = dates[i - 1];
+                    let prevGroup = groupedByDate[prevDate];
+                    startReadingValue = prevGroup[prevGroup.length - 1].value; // Last reading of previous day
+                } else {
+                    startReadingValue = currentGroup[0].value; // Very first reading of the app
+                }
+
+                let dailyUnits = lastReadingOfCurrentDate.value - startReadingValue;
+
+                if (i === dates.length - 1) {
+                    latestDailyUnits = dailyUnits;
+                }
+
+                // Show in history if there's usage OR if it's the first day with multiple entries
+                if (dailyUnits > 0 || (dailyUnits === 0 && currentGroup.length > 1)) {
+                    let cost = calculateDailyCost(dailyUnits).toFixed(2);
+                    let updateCount = currentGroup.length;
+                    
+                    // Logic to avoid counting the very first initial reading as an "extra" entry if it didn't generate usage
+                    let displayCount = i === 0 ? updateCount - 1 : updateCount;
+                    
+                    let badge = displayCount > 0 ? `<span style="font-size:10px; background:rgba(217,119,6,0.15); padding:3px 6px; border-radius:6px; margin-left:8px; color:var(--accent-gold); border: 1px solid rgba(217,119,6,0.3);">සටහන් ${displayCount} යි</span>` : "";
+
+                    historyHTML += `
+                        <div class="history-item">
+                            <div>
+                                <div class="h-date"><i class="fa-regular fa-calendar-check" style="color:var(--accent-gold); margin-right:5px;"></i> ${currentDate} ${badge}</div>
+                                <div class="h-time">අවසන් යාවත්කාලීන: ${lastReadingOfCurrentDate.date.split(' | ')[1]}</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="h-units">${dailyUnits.toFixed(2)} ඒකක</div>
+                                <div class="h-cost">රු. ${cost}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            // Always Add Initial Reading Block at the end of the history
+            let firstReading = readings[0];
+            let fDatePart = firstReading.date.split(' | ')[0];
+            let fTimePart = firstReading.date.split(' | ')[1];
+            
+            historyHTML += `
+                <div class="history-item history-initial">
+                    <div>
+                        <div class="h-date"><i class="fa-solid fa-flag-checkered" style="color:var(--accent-gold); margin-right:5px;"></i> ${fDatePart}</div>
+                        <div class="h-time">${fTimePart}</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="h-units" style="color:#854d0e;">ආරම්භක කියවීම</div>
+                        <div class="h-cost" style="color:#6b7280;">${firstReading.value} ඒකක</div>
+                    </div>
+                </div>
+            `;
+
+            historyList.innerHTML = historyHTML;
+
+            // Update Summary Card
+            document.getElementById('displayUnits').innerText = latestDailyUnits.toFixed(2);
+            document.getElementById('displayCost').innerText = calculateDailyCost(latestDailyUnits).toFixed(2);
         }
 
         function calculateDailyCost(dailyUnits) {
