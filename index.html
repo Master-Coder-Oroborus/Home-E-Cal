@@ -395,7 +395,7 @@
 
                     <div class="accordion" id="accTariff">
                         <div class="accordion-header" onclick="toggleAccordion('accTariff')">
-                            <span><i class="fa-solid fa-file-invoice-dollar" style="color: var(--primary-maroon); margin-right: 10px;"></i> විදුලි ගාස්තු කාණ්ඩ (Updated Tariff)</span>
+                            <span><i class="fa-solid fa-file-invoice-dollar" style="color: var(--primary-maroon); margin-right: 10px;"></i> විදුලි ගාස්තු කාණ්ඩ (Updated Tariff 2026 April - 01)</span>
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <div class="accordion-content">
@@ -403,11 +403,16 @@
                                 <div style="font-size: 13px; font-weight: 600; color: var(--primary-maroon); margin-bottom: 5px; background: rgba(217, 119, 6, 0.1); padding: 5px 10px; border-radius: 4px;">
                                     යාවත්කාලීන කළ නව ගාස්තු සහ වැඩීවීම:
                                 </div>
-                                <div class="tariff-item"><strong>1-30</strong> : රු. 230 (ස්ථාවර ගාස්තුව රු. 15)</div>
-                                <div class="tariff-item"><strong>31-60</strong> : රු. 630 (ස්ථාවර ගාස්තුව රු. 45)</div>
-                                <div class="tariff-item"><strong>61-90</strong> : රු. 1820 (ස්ථාවර ගාස්තුව රු. 100)</div>
-                                <div class="tariff-item"><strong>91-120</strong> : රු. 3280 (ස්ථාවර ගාස්තුව රු. 240)</div>
-                                <div class="tariff-item"><strong>121-150</strong> : රු. 5100 (ස්ථාවර ගාස්තුව රු. 480)</div>
+                                <div class="tariff-item"><strong>1-30</strong> : රු. 230</div>
+                                <div class="tariff-item"><strong>31-60</strong> : රු. 630</div>
+                                <div class="tariff-item"><strong>61-90</strong> : රු. 1820</div>
+                                <div class="tariff-item"><strong>91-120</strong> : රු. 3280</div>
+                                <div class="tariff-item"><strong>121-150</strong> : රු. 5100</div>
+                                <div class="tariff-item"><strong>151-180</strong> : රු. 6420</div>
+                                <div class="tariff-item"><strong>181-210</strong> : රු. 9570</div>
+                                <div class="tariff-item"><strong>211-240</strong> : රු. 12120</div>
+                                <div class="tariff-item"><strong>241-270</strong> : රු. 14670</div>
+                                <div class="tariff-item"><strong>271-300</strong> : රු. 17220</div>
                             </div>
                         </div>
                     </div>
@@ -670,14 +675,23 @@
                 bill = 1820 + ((totalUnits - 90) / 30) * (3280 - 1820);
             } else if (totalUnits <= 150) {
                 bill = 3280 + ((totalUnits - 120) / 30) * (5100 - 3280);
+            } else if (totalUnits <= 180) {
+                bill = 5100 + ((totalUnits - 150) / 30) * (6420 - 5100);
+            } else if (totalUnits <= 210) {
+                bill = 6420 + ((totalUnits - 180) / 30) * (9570 - 6420);
+            } else if (totalUnits <= 240) {
+                bill = 9570 + ((totalUnits - 210) / 30) * (12120 - 9570);
+            } else if (totalUnits <= 270) {
+                bill = 12120 + ((totalUnits - 240) / 30) * (14670 - 12120);
+            } else if (totalUnits <= 300) {
+                bill = 14670 + ((totalUnits - 270) / 30) * (17220 - 14670);
             } else {
-                let extraRate = (5100 - 3280) / 30; 
-                bill = 5100 + ((totalUnits - 150) * extraRate);
+                let extraRate = (17220 - 14670) / 30; 
+                bill = 17220 + ((totalUnits - 300) * extraRate);
             }
             return bill; 
         }
 
-        // --- NEW RESET FUNCTION TO CLEAR ALL LOCALSTORAGE ---
         function hardReset() {
             if(confirm("අවධානයයි! \n\nඔබගේ පරණ PIN අංකය සහ දත්ත සියල්ලම මැකී යනු ඇත. ඔබට අලුතින්ම ගිණුමක් ආරම්භ කිරීමට අවශ්‍යද?")) {
                 localStorage.clear();
@@ -687,7 +701,7 @@
 
         function resetAllData() {
             if(confirm("අවධානයයි! \n\nඔබට විශ්වාසද? ඔබගේ සියලුම දත්ත, ඉතිහාසය සහ ගිණුම සම්පූර්ණයෙන්ම මැකී යනු ඇත. මෙය නැවත ලබාගත නොහැක.")) {
-                localStorage.clear(); // Updated to clear everything
+                localStorage.clear();
                 location.reload(); 
             }
         }
