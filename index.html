@@ -623,3 +623,37 @@
             if (monthlyUnits <= 30) {
                 monthlyBill = (monthlyUnits * 8.00) + 150.00;
             } else if (monthlyUnits <= 60) {
+                monthlyBill = (30 * 8.00) + ((monthlyUnits - 30) * 20.00) + 300.00;
+            } else if (monthlyUnits <= 90) {
+                monthlyBill = (60 * 16.00) + ((monthlyUnits - 60) * 30.00) + 400.00;
+            } else if (monthlyUnits <= 120) {
+                monthlyBill = (60 * 16.00) + (30 * 30.00) + ((monthlyUnits - 90) * 50.00) + 1000.00;
+            } else {
+                monthlyBill = (60 * 16.00) + (30 * 30.00) + (30 * 50.00) + ((monthlyUnits - 120) * 75.00) + 1500.00;
+            }
+            return monthlyBill / 30; 
+        }
+
+        function resetAllData() {
+            if(confirm("අවධානයයි! \n\nඔබට විශ්වාසද? ඔබගේ සියලුම දත්ත, ඉතිහාසය සහ ගිණුම සම්පූර්ණයෙන්ම මැකී යනු ඇත. මෙය නැවත ලබාගත නොහැක.")) {
+                localStorage.removeItem('ecal_name');
+                localStorage.removeItem('ecal_pin');
+                localStorage.removeItem('ecal_readings_' + currentUser.name);
+                location.reload(); 
+            }
+        }
+
+        function logout() {
+            clearInterval(liveClockInterval); 
+            document.getElementById('dashboardView').classList.remove('active');
+            document.getElementById('loginView').classList.add('active');
+            document.getElementById('accHistory').classList.remove('open');
+            document.getElementById('accTariff').classList.remove('open');
+            if(localStorage.getItem('ecal_pin')) {
+                document.getElementById('nameGroup').style.display = 'none';
+            }
+            document.getElementById('userPin').value = '';
+        }
+    </script>
+</body>
+</html>
