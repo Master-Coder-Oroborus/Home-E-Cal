@@ -9,13 +9,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* Full-Screen Premium Theme (Restored Classic Aesthetic) */
+        /* Full-Screen Premium Theme */
         :root {
-            --bg-cream: #fdf6e9; /* Cream Background */
+            --bg-cream: #fdf6e9;
             --card-white: #ffffff;
-            --primary-maroon: #7f1d1d; /* Deep Red/Maroon */
+            --primary-maroon: #7f1d1d; 
             --primary-light: #991b1b;
-            --accent-gold: #d97706; /* Golden Yellow */
+            --accent-gold: #d97706; 
             --text-dark: #27272a;
             --text-light: #fefce8;
             --danger-color: #ef4444;
@@ -105,36 +105,48 @@
         @keyframes iconGlowWave { 0%, 100% { color: rgba(255, 255, 255, 0.4); transform: translateY(0); } 50% { color: var(--accent-gold); transform: translateY(-4px); filter: drop-shadow(0 0 8px rgba(217,119,6,0.6)); } }
 
         .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; }
-        .greeting { font-size: 16px; font-weight: 500; opacity: 0.9; margin-bottom: 8px; }
+        .greeting { font-size: 16px; font-weight: 500; opacity: 0.9; margin-bottom: 12px; }
         
         /* Modern Premium Digital Clock */
         .digital-clock-wrapper {
-            background: linear-gradient(145deg, #4a0d0d, #6b1414);
-            padding: 8px 20px;
-            border-radius: 30px;
+            background: rgba(20, 5, 5, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 8px 22px;
+            border-radius: 40px;
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1);
-            border: 1px solid rgba(217, 119, 6, 0.4);
+            gap: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), inset 0 2px 5px rgba(255,255,255,0.05);
+            border: 1px solid rgba(217, 119, 6, 0.3);
+            transition: all 0.3s ease;
         }
-        .clock-icon {
-            color: var(--accent-gold);
-            font-size: 18px;
-            animation: pulseClock 2s infinite;
+        .digital-clock-wrapper:hover {
+            border-color: rgba(217, 119, 6, 0.8);
+            box-shadow: 0 8px 20px rgba(217, 119, 6, 0.15), inset 0 2px 5px rgba(255,255,255,0.1);
+        }
+        .clock-dot {
+            width: 8px; height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            animation: blink 1.5s infinite ease-in-out;
+            box-shadow: 0 0 10px #10b981;
         }
         .digital-clock {
             font-family: 'Share Tech Mono', monospace; 
-            font-size: 22px; 
-            color: #fcd34d;
+            font-size: 24px; 
+            color: #fefce8; 
             letter-spacing: 2px; 
-            text-shadow: 0 0 8px rgba(217, 119, 6, 0.8);
             margin-top: 2px;
         }
-        @keyframes pulseClock {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 10px var(--accent-gold); }
-            100% { transform: scale(1); opacity: 0.8; }
+        .digital-clock span.ampm {
+            font-size: 14px;
+            color: var(--accent-gold);
+            margin-left: 5px;
+            font-weight: 600;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
         }
 
         @media (max-width: 900px) { .header-full { grid-template-columns: 1fr; text-align: center; gap: 20px; } .header-left, .header-center, .header-right { justify-content: center; align-items: center; } }
@@ -190,7 +202,8 @@
         .h-cost { font-weight: 700; color: #047857; font-size: 18px;}
         
         .history-initial { border-left: 4px solid var(--accent-gold); background: rgba(217, 119, 6, 0.05); }
-        .tariff-item { padding: 12px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); font-size: 14px;}
+        .tariff-item { padding: 10px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); font-size: 14px; padding-left: 10px;}
+        .tariff-item strong { color: var(--text-dark); width: 80px; display: inline-block; }
 
         /* --- Danger Zone --- */
         .danger-zone { margin-top: 50px; padding: 35px; background-color: var(--danger-bg); border: 2px dashed var(--danger-color); border-radius: 15px; text-align: center; width: 100%; position: relative; z-index: 2;}
@@ -260,7 +273,6 @@
                     <div class="orbit-ring r2"></div>
                     <div class="orbit-ring r3"></div>
                 </div>
-
                 <h1 style="font-size: 50px; margin-bottom: 5px; color: var(--accent-gold); text-shadow: 0 0 20px rgba(217, 119, 6, 0.5);">Home E-Cal</h1>
                 <p style="font-size: 18px; opacity: 0.9; font-weight: 300; letter-spacing: 1px;">ගෘහස්ථ විදුලි පරිභෝජන කළමනාකරු</p>
             </div>
@@ -316,10 +328,13 @@
 
             <div class="header-right">
                 <div class="greeting" id="dashGreeting">ආයුබෝවන්!</div>
+                
                 <div class="digital-clock-wrapper">
-                    <i class="fa-solid fa-clock clock-icon"></i>
-                    <div class="digital-clock" id="liveClock">00:00:00</div>
+                    <div class="clock-dot"></div>
+                    <div class="digital-clock" id="liveClock">00:00:00 <span class="ampm">AM</span></div>
                 </div>
+                
+                <br>
                 <a href="#" onclick="logout()" style="color: rgba(255,255,255,0.8); font-size: 13px; text-decoration: underline; margin-top: 15px; display:inline-block; transition: 0.3s;">ගිණුමෙන් ඉවත් වන්න</a>
             </div>
         </div>
@@ -370,16 +385,21 @@
 
                     <div class="accordion" id="accTariff">
                         <div class="accordion-header" onclick="toggleAccordion('accTariff')">
-                            <span><i class="fa-solid fa-file-invoice-dollar" style="color: var(--primary-maroon); margin-right: 10px;"></i> විදුලි ගාස්තු කාණ්ඩ (2026-Apr-01 සිට)</span>
+                            <span><i class="fa-solid fa-file-invoice-dollar" style="color: var(--primary-maroon); margin-right: 10px;"></i> විදුලි ගාස්තු කාණ්ඩ (Updated Tariff)</span>
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <div class="accordion-content">
-                            <div class="content-inner">
-                                <div class="tariff-item"><strong>0-30:</strong> රු. 8.00 / ඒකකය (ස්ථාවර රු. 150)</div>
-                                <div class="tariff-item"><strong>31-60:</strong> රු. 20.00 / ඒකකය (ස්ථාවර රු. 300)</div>
-                                <div class="tariff-item"><strong>61-90:</strong> රු. 30.00 / ඒකකය (ස්ථාවර රු. 400)</div>
-                                <div class="tariff-item"><strong>91-120:</strong> රු. 50.00 / ඒකකය (ස්ථාවර රු. 1000)</div>
-                                <div class="tariff-item"><strong>120+:</strong> රු. 75.00 / ඒකකය (ස්ථාවර රු. 1500)</div>
+                            <div class="content-inner" style="padding-top: 10px;">
+                                
+                                <div style="font-size: 13px; font-weight: 600; color: var(--primary-maroon); margin-bottom: 5px; background: rgba(217, 119, 6, 0.1); padding: 5px 10px; border-radius: 4px;">
+                                    යාවත්කාලීන කළ නව ගාස්තු සහ වැඩීවීම:
+                                </div>
+                                <div class="tariff-item"><strong>1-30</strong> : රු. 230 (ස්ථාවර ගාස්තුව රු. 15)</div>
+                                <div class="tariff-item"><strong>31-60</strong> : රු. 630 (ස්ථාවර ගාස්තුව රු. 45)</div>
+                                <div class="tariff-item"><strong>61-90</strong> : රු. 1820 (ස්ථාවර ගාස්තුව රු. 100)</div>
+                                <div class="tariff-item"><strong>91-120</strong> : රු. 3280 (ස්ථාවර ගාස්තුව රු. 240)</div>
+                                <div class="tariff-item"><strong>121-150</strong> : රු. 5100 (ස්ථාවර ගාස්තුව රු. 480)</div>
+                                
                             </div>
                         </div>
                     </div>
@@ -407,267 +427,3 @@
         </div>
 
     </div>
-
-    <script>
-        let currentUser = { name: '', pin: '' };
-        let liveClockInterval;
-
-        window.onload = function() {
-            const savedName = localStorage.getItem('ecal_name');
-            const savedPin = localStorage.getItem('ecal_pin');
-            if (savedName && savedPin) {
-                document.getElementById('nameGroup').style.display = 'none';
-            }
-        }
-
-        function updateClock() {
-            const now = new Date();
-            let hours = now.getHours();
-            let minutes = now.getMinutes().toString().padStart(2, '0');
-            let seconds = now.getSeconds().toString().padStart(2, '0');
-            let ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12; hours = hours ? hours : 12; 
-            hours = hours.toString().padStart(2, '0');
-            document.getElementById('liveClock').innerText = `${hours}:${minutes}:${seconds} ${ampm}`;
-        }
-
-        function toggleAccordion(id) {
-            const el = document.getElementById(id);
-            el.classList.toggle('open');
-        }
-
-        function showLoading(duration) {
-            return new Promise(resolve => {
-                const overlay = document.getElementById('loadingOverlay');
-                overlay.style.display = 'flex';
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                    resolve();
-                }, duration);
-            });
-        }
-
-        async function handleLogin() {
-            const nameInput = document.getElementById('userName').value.trim();
-            const pinInput = document.getElementById('userPin').value.trim();
-            const savedName = localStorage.getItem('ecal_name');
-            const savedPin = localStorage.getItem('ecal_pin');
-            const errorDiv = document.getElementById('loginError');
-
-            if (!pinInput) {
-                errorDiv.innerText = "කරුණාකර පින් අංකය ඇතුලත් කරන්න.";
-                errorDiv.style.display = 'block';
-                return;
-            }
-
-            if (!savedName) {
-                if (!nameInput) {
-                    errorDiv.innerText = "කරුණාකර ඔබගේ නම ඇතුලත් කරන්න.";
-                    errorDiv.style.display = 'block';
-                    return;
-                }
-                await showLoading(1500); 
-                localStorage.setItem('ecal_name', nameInput);
-                localStorage.setItem('ecal_pin', pinInput);
-                showDashboard(nameInput);
-            } else {
-                if (pinInput === savedPin) {
-                    await showLoading(1000);
-                    showDashboard(savedName);
-                } else {
-                    errorDiv.innerText = "පින් අංකය වැරදියි!";
-                    errorDiv.style.display = 'block';
-                }
-            }
-        }
-
-        function showDashboard(name) {
-            currentUser.name = name;
-            document.getElementById('loginView').classList.remove('active');
-            document.getElementById('dashboardView').classList.add('active');
-            document.getElementById('dashGreeting').innerText = `ආයුබෝවන්, ${name}!`;
-            liveClockInterval = setInterval(updateClock, 1000);
-            updateClock();
-            updateDashboardData();
-        }
-
-        function showPopup(timeString) {
-            document.getElementById('popupTimeText').innerText = timeString;
-            document.getElementById('customPopup').classList.add('show');
-        }
-
-        function closePopup() {
-            document.getElementById('customPopup').classList.remove('show');
-        }
-
-        async function handleMeterReading() {
-            const readingInput = parseFloat(document.getElementById('meterReadingInput').value);
-            if (!readingInput || isNaN(readingInput)) {
-                alert("කරුණාකර නිවැරදි අගයක් ඇතුලත් කරන්න.");
-                return;
-            }
-
-            const now = new Date();
-            const timestamp = now.toISOString();
-            
-            let hrs = now.getHours();
-            let mins = now.getMinutes().toString().padStart(2, '0');
-            let ampm = hrs >= 12 ? 'PM' : 'AM';
-            hrs = hrs % 12; hrs = hrs ? hrs : 12;
-            const timeStr = `${hrs}:${mins} ${ampm}`;
-            
-            const dateStr = `${now.getFullYear()}.${(now.getMonth()+1).toString().padStart(2,'0')}.${now.getDate().toString().padStart(2,'0')} | ${timeStr}`;
-            
-            let readings = JSON.parse(localStorage.getItem('ecal_readings_' + currentUser.name)) || [];
-
-            if (readings.length > 0) {
-                const lastVal = readings[readings.length - 1].value;
-                if (readingInput < lastVal) {
-                    alert(`නව අගය පෙර සටහන් කළ අගයට (${lastVal}) වඩා වැඩි හෝ සමාන විය යුතුය!`);
-                    return;
-                }
-            }
-
-            await showLoading(1200); 
-
-            readings.push({ timestamp: timestamp, date: dateStr, value: readingInput });
-            localStorage.setItem('ecal_readings_' + currentUser.name, JSON.stringify(readings));
-            
-            document.getElementById('meterReadingInput').value = '';
-            updateDashboardData();
-            
-            document.getElementById('accHistory').classList.add('open');
-            window.scrollTo({ top: 300, behavior: 'smooth' });
-
-            showPopup(timeStr);
-        }
-
-        function updateDashboardData() {
-            const readings = JSON.parse(localStorage.getItem('ecal_readings_' + currentUser.name)) || [];
-            const historyList = document.getElementById('historyList');
-            historyList.innerHTML = '';
-
-            if (readings.length >= 2) {
-                const firstReading = readings[0].value;
-                const latestReading = readings[readings.length - 1].value;
-                
-                // Cumulative Total
-                const cumulativeTotalUnits = latestReading - firstReading;
-                
-                if (cumulativeTotalUnits >= 0) {
-                    const cumulativeTotalCost = calculateCumulativeBill(cumulativeTotalUnits);
-                    document.getElementById('displayUnits').innerText = cumulativeTotalUnits.toFixed(2);
-                    document.getElementById('displayCost').innerText = cumulativeTotalCost.toFixed(2);
-                }
-
-                let historyHTML = '';
-                // Loop backwards to show newest first
-                for (let i = readings.length - 1; i >= 0; i--) {
-                    let datePart = readings[i].date.split(' | ')[0];
-                    let timePart = readings[i].date.split(' | ')[1];
-                    const currentReading = readings[i].value;
-
-                    if(i === 0) {
-                        historyHTML += `
-                            <div class="history-item history-initial">
-                                <div>
-                                    <div class="h-date"><i class="fa-solid fa-flag-checkered" style="color:var(--accent-gold); margin-right:5px;"></i> ${datePart}</div>
-                                    <div class="h-time"><i class="fa-regular fa-clock"></i> ${timePart}</div>
-                                </div>
-                                <div style="text-align: right;">
-                                    <div class="h-reading">මීටරය: <span>${currentReading}</span></div>
-                                    <div class="h-units" style="color:var(--accent-gold); font-size: 14px; margin-top:5px;">ආරම්භක කියවීම</div>
-                                </div>
-                            </div>
-                        `;
-                    } else {
-                        // Delta (Units added)
-                        const addedUnits = (readings[i].value - readings[i-1].value).toFixed(2);
-                        
-                        // Cumulative up to this point
-                        const totalUnitsSoFar = (readings[i].value - firstReading).toFixed(2);
-                        const costSoFar = calculateCumulativeBill(totalUnitsSoFar).toFixed(2);
-
-                        historyHTML += `
-                            <div class="history-item">
-                                <div>
-                                    <div class="h-date"><i class="fa-regular fa-calendar-check" style="color:var(--primary-light); margin-right:5px;"></i> ${datePart}</div>
-                                    <div class="h-time"><i class="fa-regular fa-clock"></i> ${timePart}</div>
-                                    <div class="h-reading">මීටරය: <span>${currentReading}</span></div>
-                                    <div class="h-added">+ ${addedUnits} ඒකක</div>
-                                </div>
-                                <div style="text-align: right;">
-                                    <div style="font-size: 14px; color:#6b7280; font-weight: 500;">එදිනට මුළු:</div>
-                                    <div class="h-units">${totalUnitsSoFar} ඒකක</div>
-                                    <div class="h-cost">රු. ${costSoFar}</div>
-                                </div>
-                            </div>
-                        `;
-                    }
-                }
-                historyList.innerHTML = historyHTML;
-
-            } else if (readings.length === 1) {
-                document.getElementById('displayUnits').innerText = "0.00";
-                document.getElementById('displayCost').innerText = "0.00";
-                
-                let datePart = readings[0].date.split(' | ')[0];
-                let timePart = readings[0].date.split(' | ')[1];
-                const currentReading = readings[0].value;
-                
-                historyList.innerHTML = `
-                    <div class="history-item history-initial">
-                        <div>
-                            <div class="h-date"><i class="fa-solid fa-flag-checkered" style="color:var(--accent-gold); margin-right:5px;"></i> ${datePart}</div>
-                            <div class="h-time"><i class="fa-regular fa-clock"></i> ${timePart}</div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div class="h-reading">මීටරය: <span>${currentReading}</span></div>
-                            <div class="h-units" style="color:var(--accent-gold); font-size: 14px; margin-top:5px;">ආරම්භක කියවීම</div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                historyList.innerHTML = '<div style="text-align:center; color:#9ca3af; padding:20px; font-size: 14px;">තවමත් දත්ත ඇතුලත් කර නොමැත</div>';
-            }
-        }
-
-        function calculateCumulativeBill(totalUnits) {
-            let bill = 0;
-            if (totalUnits <= 30) {
-                bill = (totalUnits * 8.00) + 150.00;
-            } else if (totalUnits <= 60) {
-                bill = (30 * 8.00) + ((totalUnits - 30) * 20.00) + 300.00;
-            } else if (totalUnits <= 90) {
-                bill = (60 * 16.00) + ((totalUnits - 60) * 30.00) + 400.00;
-            } else if (totalUnits <= 120) {
-                bill = (60 * 16.00) + (30 * 30.00) + ((totalUnits - 90) * 50.00) + 1000.00;
-            } else {
-                bill = (60 * 16.00) + (30 * 30.00) + (30 * 50.00) + ((totalUnits - 120) * 75.00) + 1500.00;
-            }
-            return bill; 
-        }
-
-        function resetAllData() {
-            if(confirm("අවධානයයි! \n\nඔබට විශ්වාසද? ඔබගේ සියලුම දත්ත, ඉතිහාසය සහ ගිණුම සම්පූර්ණයෙන්ම මැකී යනු ඇත. මෙය නැවත ලබාගත නොහැක.")) {
-                localStorage.removeItem('ecal_name');
-                localStorage.removeItem('ecal_pin');
-                localStorage.removeItem('ecal_readings_' + currentUser.name);
-                location.reload(); 
-            }
-        }
-
-        function logout() {
-            clearInterval(liveClockInterval); 
-            document.getElementById('dashboardView').classList.remove('active');
-            document.getElementById('loginView').classList.add('active');
-            document.getElementById('accHistory').classList.remove('open');
-            document.getElementById('accTariff').classList.remove('open');
-            if(localStorage.getItem('ecal_pin')) {
-                document.getElementById('nameGroup').style.display = 'none';
-            }
-            document.getElementById('userPin').value = '';
-        }
-    </script>
-</body>
-</html>
