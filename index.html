@@ -31,10 +31,10 @@
             overflow-x: hidden; position: relative;
         }
 
-        /* --- New Subtle Background Animations --- */
+        /* --- Subtle Background Floating Animations --- */
         .bg-animations { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
         .bg-anim-item {
-            position: absolute; color: rgba(217, 119, 6, 0.08); /* Faint Gold */
+            position: absolute; color: rgba(217, 119, 6, 0.06); 
             font-size: 80px; animation: floatUp 20s infinite linear; bottom: -120px;
         }
         .bg-anim-item:nth-child(1) { left: 15%; animation-duration: 25s; animation-delay: 0s; font-size: 150px; }
@@ -49,6 +49,31 @@
             90% { opacity: 1; }
             100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
         }
+
+        /* --- Eco Scenery (Wind, Solar, Hydro) Above Header --- */
+        .eco-scenery {
+            display: flex; justify-content: center; gap: 60px; padding: 25px 0 10px 0;
+            background: transparent; align-items: flex-end; height: 120px; position: relative; z-index: 5;
+        }
+        
+        /* Wind Turbine */
+        .wind-turbine { display: flex; flex-direction: column; align-items: center; position: relative; }
+        .fan-blade { font-size: 55px; color: #9ca3af; animation: spin 3s linear infinite; z-index: 2; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+        .pole { width: 6px; height: 50px; background: linear-gradient(to right, #6b7280, #9ca3af); margin-top: -20px; border-radius: 3px; }
+
+        /* Solar Panel */
+        .solar-station { position: relative; display: flex; align-items: flex-end;}
+        .sun-glow { font-size: 40px; color: #fcd34d; position: absolute; top: -35px; left: 50%; transform: translateX(-50%); animation: pulseGlow 2s infinite alternate; filter: drop-shadow(0 0 10px #fcd34d); }
+        .panel { font-size: 55px; color: #3b82f6; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+
+        /* Hydro Power */
+        .hydro-station { display: flex; align-items: flex-end; gap: 5px; font-size: 50px;}
+        .water-wave { color: #0ea5e9; animation: wavePulse 1.5s infinite alternate; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+        .hydro-plant { color: #64748b; font-size: 45px; }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes pulseGlow { 0% { transform: translateX(-50%) scale(0.9); opacity: 0.8;} 100% { transform: translateX(-50%) scale(1.1); opacity: 1;} }
+        @keyframes wavePulse { 0% { transform: translateY(0); } 100% { transform: translateY(-8px); } }
 
         /* --- Views Container --- */
         .view-container { display: none; width: 100%; min-height: 100vh; flex-direction: column; position: relative; z-index: 2; }
@@ -70,20 +95,13 @@
             position: relative; overflow: hidden;
         }
         
-        /* New Elegant Energy Core Animation for Login */
         .cyber-core { position: relative; width: 220px; height: 220px; margin-bottom: 40px; display: flex; justify-content: center; align-items: center; }
-        .core-center {
-            width: 60px; height: 60px; background: var(--accent-gold); border-radius: 50%;
-            box-shadow: 0 0 20px var(--accent-gold), 0 0 40px rgba(255,255,255,0.5), inset 0 0 10px #fff;
-            animation: corePulse 1.5s infinite alternate; z-index: 10;
-        }
+        .core-center { width: 60px; height: 60px; background: var(--accent-gold); border-radius: 50%; box-shadow: 0 0 20px var(--accent-gold), 0 0 40px rgba(255,255,255,0.5), inset 0 0 10px #fff; animation: corePulse 1.5s infinite alternate; z-index: 10; }
         .orbit-ring { position: absolute; border-radius: 50%; animation: spinRing linear infinite; }
         .orbit-ring.r1 { width: 110px; height: 110px; border: 3px dashed rgba(255, 255, 255, 0.6); animation-duration: 6s; }
         .orbit-ring.r2 { width: 160px; height: 160px; border: 2px solid rgba(217, 119, 6, 0.8); border-left-color: transparent; border-right-color: transparent; animation-duration: 4s; animation-direction: reverse; }
         .orbit-ring.r3 { width: 210px; height: 210px; border: 1px dotted rgba(255, 255, 255, 0.4); border-top: 3px solid var(--accent-gold); animation-duration: 10s; }
-        
         @keyframes corePulse { 0% { transform: scale(0.9); opacity: 0.8; } 100% { transform: scale(1.1); opacity: 1; filter: brightness(1.2); } }
-        @keyframes spinRing { 100% { transform: rotate(360deg); } }
 
         .login-right { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px; background-color: var(--bg-cream); }
         @media (max-width: 900px) { .login-wrapper { flex-direction: column; } .login-left { padding: 60px 20px; } }
@@ -113,7 +131,6 @@
         .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; }
         .greeting { font-size: 16px; font-weight: 500; opacity: 0.9; margin-bottom: 5px; }
         
-        /* Themed Gold LED Digital Clock */
         .digital-clock {
             font-family: 'Share Tech Mono', monospace; font-size: 22px; color: #fcd34d;
             background-color: #1a0505; padding: 5px 15px; border-radius: 6px;
@@ -168,6 +185,8 @@
         .history-item:hover { border-left: 4px solid var(--primary-maroon); background: #fafaf9; }
         .h-date { font-weight: 500; font-size: 14px; color: var(--text-dark); }
         .h-time { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #6b7280; margin-top: 4px;}
+        .h-reading { font-size: 13px; color: #4b5563; margin-top: 5px; font-weight: 600; }
+        .h-reading span { color: #000; font-family: 'Share Tech Mono', monospace; font-size: 14px; background: #f3f4f6; padding: 2px 6px; border-radius: 4px;}
         .h-added { font-size: 13px; color: var(--accent-gold); font-weight: 600; margin-top: 4px; }
         .h-units { font-weight: 700; color: var(--primary-maroon); font-size: 18px;}
         .h-cost { font-weight: 700; color: #047857; font-size: 18px;}
@@ -277,6 +296,21 @@
 
     <div id="dashboardView" class="view-container">
         
+        <div class="eco-scenery">
+            <div class="wind-turbine">
+                <i class="fa-solid fa-fan fan-blade"></i>
+                <div class="pole"></div>
+            </div>
+            <div class="solar-station">
+                <i class="fa-solid fa-sun sun-glow"></i>
+                <i class="fa-solid fa-solar-panel panel"></i>
+            </div>
+            <div class="hydro-station">
+                <i class="fa-solid fa-water water-wave"></i>
+                <i class="fa-solid fa-industry hydro-plant"></i>
+            </div>
+        </div>
+
         <div class="header-full">
             <div class="header-left">
                 <div class="app-title">
@@ -338,7 +372,7 @@
                 <div class="column">
                     <div class="accordion" id="accHistory">
                         <div class="accordion-header" onclick="toggleAccordion('accHistory')">
-                            <span><i class="fa-solid fa-database" style="color: var(--primary-maroon); margin-right: 10px;"></i> දත්ත ඉතිහාසය (History)</span>
+                            <span><i class="fa-solid fa-database" style="color: var(--primary-maroon); margin-right: 10px;"></i> දත්ත ඉතිහාසය (History Logs)</span>
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <div class="accordion-content">
@@ -545,6 +579,7 @@
                 for (let i = readings.length - 1; i >= 0; i--) {
                     let datePart = readings[i].date.split(' | ')[0];
                     let timePart = readings[i].date.split(' | ')[1];
+                    const currentReading = readings[i].value;
 
                     if(i === 0) {
                         historyHTML += `
@@ -554,8 +589,8 @@
                                     <div class="h-time"><i class="fa-regular fa-clock"></i> ${timePart}</div>
                                 </div>
                                 <div style="text-align: right;">
-                                    <div class="h-units" style="color:var(--accent-gold); font-size: 15px;">ආරම්භක කියවීම</div>
-                                    <div class="h-cost" style="color:#6b7280; font-size: 14px;">මීටරය: ${readings[0].value}</div>
+                                    <div class="h-reading">මීටරය: <span>${currentReading}</span></div>
+                                    <div class="h-units" style="color:var(--accent-gold); font-size: 14px; margin-top:5px;">ආරම්භක කියවීම</div>
                                 </div>
                             </div>
                         `;
@@ -572,10 +607,12 @@
                                 <div>
                                     <div class="h-date"><i class="fa-regular fa-calendar-check" style="color:var(--primary-light); margin-right:5px;"></i> ${datePart}</div>
                                     <div class="h-time"><i class="fa-regular fa-clock"></i> ${timePart}</div>
+                                    <div class="h-reading">මීටරය: <span>${currentReading}</span></div>
                                     <div class="h-added">+ ${addedUnits} ඒකක</div>
                                 </div>
                                 <div style="text-align: right;">
-                                    <div class="h-units" style="font-size: 14px; color:#6b7280;">මුළු: <span style="color:var(--primary-maroon); font-size:18px;">${totalUnitsSoFar}</span></div>
+                                    <div style="font-size: 14px; color:#6b7280; font-weight: 500;">එදිනට මුළු:</div>
+                                    <div class="h-units">${totalUnitsSoFar} ඒකක</div>
                                     <div class="h-cost">රු. ${costSoFar}</div>
                                 </div>
                             </div>
@@ -590,6 +627,7 @@
                 
                 let datePart = readings[0].date.split(' | ')[0];
                 let timePart = readings[0].date.split(' | ')[1];
+                const currentReading = readings[0].value;
                 
                 historyList.innerHTML = `
                     <div class="history-item history-initial">
@@ -598,8 +636,8 @@
                             <div class="h-time"><i class="fa-regular fa-clock"></i> ${timePart}</div>
                         </div>
                         <div style="text-align: right;">
-                            <div class="h-units" style="color:var(--accent-gold); font-size: 15px;">ආරම්භක කියවීම</div>
-                            <div class="h-cost" style="color:#6b7280; font-size: 14px;">මීටරය: ${readings[0].value}</div>
+                            <div class="h-reading">මීටරය: <span>${currentReading}</span></div>
+                            <div class="h-units" style="color:var(--accent-gold); font-size: 14px; margin-top:5px;">ආරම්භක කියවීම</div>
                         </div>
                     </div>
                 `;
