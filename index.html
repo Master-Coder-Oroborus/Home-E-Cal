@@ -32,7 +32,7 @@
             overflow-x: hidden; position: relative;
         }
 
-        /* --- Advanced Background Animations (Floating Circuits/Plugs) --- */
+        /* --- Advanced Background Animations --- */
         .bg-animations { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
         .bg-anim-item {
             position: absolute; color: rgba(217, 119, 6, 0.04); font-size: 80px;
@@ -63,13 +63,12 @@
             z-index: 9999; display: none; justify-content: center; align-items: center; flex-direction: column;
         }
 
-        /* --- Login Screen (Advanced Sci-Fi Design) --- */
+        /* --- Login Screen --- */
         .login-wrapper { display: flex; flex-direction: row; flex-grow: 1; width: 100%; }
         .login-left {
             flex: 1; background: radial-gradient(circle at center, #651616 0%, var(--primary-maroon) 100%);
             color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; text-align: center;
-            position: relative; overflow: hidden;
-            box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+            position: relative; overflow: hidden; box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
         }
         
         /* High-Tech Energy Core Animation */
@@ -83,11 +82,7 @@
         .orbit-ring.r1 { width: 120px; height: 120px; border: 2px dashed rgba(232, 211, 180, 0.4); animation-duration: 8s; }
         .orbit-ring.r2 { width: 180px; height: 180px; border: 3px solid rgba(217, 119, 6, 0.5); border-top-color: transparent; animation-duration: 5s; animation-direction: reverse; }
         .orbit-ring.r3 { width: 240px; height: 240px; border: 1px dotted rgba(255, 255, 255, 0.3); animation-duration: 12s; }
-        
-        .data-node {
-            position: absolute; width: 8px; height: 8px; background: #fff; border-radius: 50%;
-            box-shadow: 0 0 10px #fff; top: -4px; left: 50%; transform: translateX(-50%);
-        }
+        .data-node { position: absolute; width: 8px; height: 8px; background: #fff; border-radius: 50%; box-shadow: 0 0 10px #fff; top: -4px; left: 50%; transform: translateX(-50%); }
 
         @keyframes corePulse { 0% { transform: scale(0.9); opacity: 0.8; } 100% { transform: scale(1.1); opacity: 1; filter: brightness(1.2); } }
         @keyframes spinRing { 100% { transform: rotate(360deg); } }
@@ -103,7 +98,6 @@
             position: relative; z-index: 10; border-bottom: 2px solid rgba(232, 211, 180, 0.2);
         }
 
-        /* Header Left: Title */
         .header-left { display: flex; align-items: center; gap: 10px; }
         .app-title { font-size: 26px; font-weight: 700; color: var(--accent-glow); letter-spacing: 1px; display: flex; align-items: center; gap: 10px; text-shadow: 0 0 10px rgba(232, 211, 180, 0.3); }
         .house-bulb-anim { position: relative; width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; }
@@ -118,7 +112,6 @@
             80% { opacity: 1; text-shadow: 0 0 15px var(--accent-gold); }
         }
 
-        /* Header Center: Appliances Strip */
         .header-center { display: flex; justify-content: center; gap: 25px; padding: 0 20px; }
         .app-icon { font-size: 24px; color: rgba(255, 255, 255, 0.4); animation: iconGlowWave 3s infinite; transition: 0.3s; }
         .app-icon:nth-child(1) { animation-delay: 0.0s; }
@@ -133,23 +126,15 @@
             50% { color: var(--accent-glow); transform: translateY(-4px); filter: drop-shadow(0 0 8px var(--accent-glow)); }
         }
 
-        /* Header Right: Clock & User */
         .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; }
         .greeting { font-size: 16px; font-weight: 500; opacity: 0.9; margin-bottom: 5px; }
         
-        /* Themed Digital Clock */
         .digital-clock {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 22px;
-            color: var(--accent-glow);
-            background-color: rgba(0, 0, 0, 0.4);
-            padding: 5px 15px;
-            border-radius: 6px;
-            display: inline-block;
-            border: 1px solid rgba(232, 211, 180, 0.3);
+            font-family: 'Share Tech Mono', monospace; font-size: 22px; color: var(--accent-glow);
+            background-color: rgba(0, 0, 0, 0.4); padding: 5px 15px; border-radius: 6px;
+            display: inline-block; border: 1px solid rgba(232, 211, 180, 0.3);
             box-shadow: inset 0 0 8px rgba(0,0,0,0.8), 0 0 15px rgba(232, 211, 180, 0.15);
-            letter-spacing: 2px;
-            text-shadow: 0 0 8px var(--accent-glow);
+            letter-spacing: 2px; text-shadow: 0 0 8px var(--accent-glow);
         }
 
         @media (max-width: 900px) {
@@ -176,6 +161,7 @@
         .summary-label { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 5px; }
         .summary-value { font-size: 45px; font-weight: 700; line-height: 1; text-shadow: 0 0 15px rgba(255,255,255,0.2); }
         .currency { font-size: 20px; font-weight: 400; }
+        .note-text { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 8px; display: block; }
 
         /* Inputs & Buttons */
         .form-group { margin-bottom: 25px; }
@@ -198,9 +184,13 @@
         .history-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid rgba(127, 29, 29, 0.1); align-items: center; }
         .history-item:last-child { border-bottom: none; }
         .h-date { font-weight: 500; font-size: 14px; }
+        .h-time { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #6b7280; margin-left: 20px; margin-top: 2px;}
         .h-units { font-weight: 600; color: var(--primary-maroon); font-size: 16px;}
         .h-cost { font-weight: 700; color: #047857; font-size: 16px;}
         .tariff-item { padding: 12px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); font-size: 14px;}
+
+        /* Initial Reading Styling */
+        .history-initial { background: rgba(217,119,6,0.06); padding: 15px; border-radius: 12px; border: 1px dashed rgba(217,119,6,0.3); margin-top: 10px;}
 
         /* --- Danger Zone --- */
         .danger-zone { margin-top: 50px; padding: 35px; background-color: var(--danger-bg); border: 2px dashed var(--danger-color); border-radius: 15px; text-align: center; width: 100%; position: relative; z-index: 2;}
@@ -264,7 +254,6 @@
     <div id="loginView" class="view-container active">
         <div class="login-wrapper">
             <div class="login-left">
-                
                 <div class="cyber-core">
                     <div class="core-center"></div>
                     <div class="orbit-ring r1"><div class="data-node"></div></div>
@@ -327,9 +316,7 @@
 
             <div class="header-right">
                 <div class="greeting" id="dashGreeting">ආයුබෝවන්!</div>
-                
                 <div class="digital-clock" id="liveClock">00:00:00</div>
-                
                 <a href="#" onclick="logout()" style="color: rgba(255,255,255,0.7); font-size: 13px; text-decoration: underline; margin-top: 10px; transition: 0.3s;">ගිණුමෙන් ඉවත් වන්න</a>
             </div>
         </div>
@@ -349,6 +336,7 @@
                             <div class="summary-col">
                                 <div class="summary-label">දළ වියදම</div>
                                 <div class="summary-value"><span class="currency">රු.</span> <span id="displayCost">0.00</span></div>
+                                <span class="note-text">*දෛනික ස්ථාවර ගාස්තුව ද ඇතුළත්ය</span>
                             </div>
                         </div>
                     </div>
@@ -429,18 +417,14 @@
             }
         }
 
-        // Digital LED Clock Logic
         function updateClock() {
             const now = new Date();
             let hours = now.getHours();
             let minutes = now.getMinutes().toString().padStart(2, '0');
             let seconds = now.getSeconds().toString().padStart(2, '0');
             let ampm = hours >= 12 ? 'PM' : 'AM';
-            
-            hours = hours % 12;
-            hours = hours ? hours : 12; // 0 becomes 12
+            hours = hours % 12; hours = hours ? hours : 12; 
             hours = hours.toString().padStart(2, '0');
-            
             document.getElementById('liveClock').innerText = `${hours}:${minutes}:${seconds} ${ampm}`;
         }
 
@@ -498,16 +482,12 @@
             currentUser.name = name;
             document.getElementById('loginView').classList.remove('active');
             document.getElementById('dashboardView').classList.add('active');
-            
             document.getElementById('dashGreeting').innerText = `ආයුබෝවන්, ${name}!`;
-            
             liveClockInterval = setInterval(updateClock, 1000);
             updateClock();
-            
             updateDashboardData();
         }
 
-        // Custom Popup Logic
         function showPopup(timeString) {
             document.getElementById('popupTimeText').innerText = timeString;
             document.getElementById('customPopup').classList.add('show');
@@ -527,7 +507,6 @@
             const now = new Date();
             const timestamp = now.toISOString();
             
-            // Time string for Popup (e.g., 8:30 AM)
             let hrs = now.getHours();
             let mins = now.getMinutes().toString().padStart(2, '0');
             let ampm = hrs >= 12 ? 'PM' : 'AM';
@@ -538,7 +517,6 @@
             
             let readings = JSON.parse(localStorage.getItem('ecal_readings_' + currentUser.name)) || [];
 
-            // Any time calculation support (No 24h limit)
             if (readings.length > 0) {
                 const lastVal = readings[readings.length - 1].value;
                 if (readingInput < lastVal) {
@@ -558,7 +536,6 @@
             document.getElementById('accHistory').classList.add('open');
             window.scrollTo({ top: 300, behavior: 'smooth' });
 
-            // Trigger the smart popup
             showPopup(timeStr);
         }
 
@@ -568,7 +545,6 @@
             historyList.innerHTML = '';
 
             if (readings.length >= 2) {
-                // Calculation runs immediately based on last two inputs
                 const lastIdx = readings.length - 1;
                 const dailyUnits = readings[lastIdx].value - readings[lastIdx - 1].value;
                 
@@ -579,35 +555,60 @@
                 }
 
                 let historyHTML = '';
-                for (let i = readings.length - 1; i > 0; i--) {
-                    const units = (readings[i].value - readings[i-1].value).toFixed(2);
-                    const cost = calculateDailyCost(units).toFixed(2);
-                    
+                // Loop backwards to show newest first, including the 0th reading
+                for (let i = readings.length - 1; i >= 0; i--) {
                     let datePart = readings[i].date.split(' | ')[0];
                     let timePart = readings[i].date.split(' | ')[1];
 
-                    historyHTML += `
-                        <div class="history-item">
-                            <div>
-                                <div class="h-date"><i class="fa-regular fa-calendar-check" style="color:var(--accent-gold); margin-right:5px;"></i> ${datePart}</div>
-                                <div style="font-size: 11px; color: #6b7280; margin-left: 20px; font-family: monospace;">${timePart}</div>
+                    if(i === 0) {
+                        historyHTML += `
+                            <div class="history-item history-initial">
+                                <div>
+                                    <div class="h-date"><i class="fa-solid fa-flag-checkered" style="color:var(--accent-gold); margin-right:5px;"></i> ${datePart}</div>
+                                    <div class="h-time">${timePart}</div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div class="h-units" style="color:#854d0e;">ආරම්භක කියවීම</div>
+                                    <div class="h-cost" style="color:#6b7280;">${readings[0].value} ඒකක</div>
+                                </div>
                             </div>
-                            <div style="text-align: right;">
-                                <div class="h-units">${units} ඒකක</div>
-                                <div class="h-cost">රු. ${cost}</div>
+                        `;
+                    } else {
+                        const units = (readings[i].value - readings[i-1].value).toFixed(2);
+                        const cost = calculateDailyCost(units).toFixed(2);
+                        historyHTML += `
+                            <div class="history-item">
+                                <div>
+                                    <div class="h-date"><i class="fa-regular fa-calendar-check" style="color:var(--accent-gold); margin-right:5px;"></i> ${datePart}</div>
+                                    <div class="h-time">${timePart}</div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div class="h-units">${units} ඒකක</div>
+                                    <div class="h-cost">රු. ${cost}</div>
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
+                    }
                 }
                 historyList.innerHTML = historyHTML;
 
             } else if (readings.length === 1) {
                 document.getElementById('displayUnits').innerText = "0.00";
                 document.getElementById('displayCost').innerText = "0.00";
+                
+                let datePart = readings[0].date.split(' | ')[0];
+                let timePart = readings[0].date.split(' | ')[1];
+                
                 historyList.innerHTML = `
-                    <div style="text-align:center; padding:20px; color:var(--accent-gold); background:rgba(217, 119, 6, 0.05); border-radius:12px; font-size:14px; border: 1px dashed rgba(217,119,6,0.3);">
-                        <i class="fa-solid fa-circle-info" style="font-size:24px; display:block; margin-bottom:10px;"></i>
-                        පළමු අගය (${readings[0].value}) සටහන් විය. <br>නැවත අගයක් ඇතුලත් කළ පසු ගණනය කිරීම සිදුවේ.
+                    <div class="history-item history-initial">
+                        <div>
+                            <div class="h-date"><i class="fa-solid fa-flag-checkered" style="color:var(--accent-gold); margin-right:5px;"></i> ${datePart}</div>
+                            <div class="h-time">${timePart}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="h-units" style="color:#854d0e;">ආරම්භක කියවීම</div>
+                            <div class="h-cost" style="color:#6b7280;">${readings[0].value} ඒකක</div>
+                        </div>
                     </div>
                 `;
             } else {
@@ -622,37 +623,3 @@
             if (monthlyUnits <= 30) {
                 monthlyBill = (monthlyUnits * 8.00) + 150.00;
             } else if (monthlyUnits <= 60) {
-                monthlyBill = (30 * 8.00) + ((monthlyUnits - 30) * 20.00) + 300.00;
-            } else if (monthlyUnits <= 90) {
-                monthlyBill = (60 * 16.00) + ((monthlyUnits - 60) * 30.00) + 400.00;
-            } else if (monthlyUnits <= 120) {
-                monthlyBill = (60 * 16.00) + (30 * 30.00) + ((monthlyUnits - 90) * 50.00) + 1000.00;
-            } else {
-                monthlyBill = (60 * 16.00) + (30 * 30.00) + (30 * 50.00) + ((monthlyUnits - 120) * 75.00) + 1500.00;
-            }
-            return monthlyBill / 30; 
-        }
-
-        function resetAllData() {
-            if(confirm("අවධානයයි! \n\nඔබට විශ්වාසද? ඔබගේ සියලුම දත්ත, ඉතිහාසය සහ ගිණුම සම්පූර්ණයෙන්ම මැකී යනු ඇත. මෙය නැවත ලබාගත නොහැක.")) {
-                localStorage.removeItem('ecal_name');
-                localStorage.removeItem('ecal_pin');
-                localStorage.removeItem('ecal_readings_' + currentUser.name);
-                location.reload(); 
-            }
-        }
-
-        function logout() {
-            clearInterval(liveClockInterval); 
-            document.getElementById('dashboardView').classList.remove('active');
-            document.getElementById('loginView').classList.add('active');
-            document.getElementById('accHistory').classList.remove('open');
-            document.getElementById('accTariff').classList.remove('open');
-            if(localStorage.getItem('ecal_pin')) {
-                document.getElementById('nameGroup').style.display = 'none';
-            }
-            document.getElementById('userPin').value = '';
-        }
-    </script>
-</body>
-</html>
